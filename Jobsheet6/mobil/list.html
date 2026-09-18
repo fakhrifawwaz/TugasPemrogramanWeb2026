@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Fakhri Rent Car | Daftar Mobil</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+    <header>
+        <div class="brand-group">
+            <h1>FAKHRI RENT CAR</h1>
+            <p class="subtitle">SIRENMO — Sistem Informasi Rental Mobil</p>
+        </div>
+        <button type="button" id="nav-toggle-btn" class="nav-toggle-label" aria-label="Menu">&#9776;</button>
+        <nav>
+            <ul>
+                <li><a href="../index.html">Beranda</a></li>
+                <li><a href="list.html" class="aktif">Daftar Mobil</a></li>
+                <li><a href="tambah.html">Tambah Mobil</a></li>
+                <li><a href="../pelanggan/list.html">Daftar Pelanggan</a></li>
+                <li><a href="../pelanggan/tambah.html">Tambah Pelanggan</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section>
+            <h2>Daftar Mobil</h2>
+            <div class="search-box">
+                <input type="text" id="search-input" placeholder="Cari data...">
+            </div>
+                <!-- Indikator Loading -->
+                <p id="loading-indicator" style="display:none;">Memuat data...</p>
+
+            <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        <th>No. Mobil</th>
+                        <th>Merek</th>
+                        <th>Tipe</th>
+                        <th>Tahun</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>N 001 SIB</td>
+                        <td>Toyota</td>
+                        <td>Avanza</td>
+                        <td>2020</td>
+                        <td>
+                            <button type="button" class="btn-edit">Edit</button>
+                            <button type="button" class="btn-hapus">Hapus</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>N 002 SIB</td>
+                        <td>Honda</td>
+                        <td>Jazz</td>
+                        <td>2019</td>
+                        <td>
+                            <button type="button" class="btn-edit">Edit</button>
+                            <button type="button" class="btn-hapus">Hapus</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>N 003 SIB</td>
+                        <td>Toyota</td>
+                        <td>Innova</td>
+                        <td>2021</td>
+                        <td>
+                            <button type="button" class="btn-edit">Edit</button>
+                            <button type="button" class="btn-hapus">Hapus</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>N 004 SIB</td>
+                        <td>Mitsubishi</td>
+                        <td>Pajero</td>
+                        <td>2020</td>
+                        <td>
+                            <button type="button" class="btn-edit">Edit</button>
+                            <button type="button" class="btn-hapus">Hapus</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Fakhri Rent Car &mdash; Pemrograman Web </p>
+    </footer>
+    <script src="../assets/js/app.js"></script>
+<script src="../assets/js/mobil.js"></script>
+</body>
+</html>
