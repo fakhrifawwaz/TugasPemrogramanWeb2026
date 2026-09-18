@@ -1,0 +1,332 @@
+/* ===== Reset & Base ===== */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: "Segoe UI", Arial, sans-serif;
+    color: #2b2b2b;
+    background-color: #f5f6f8;
+    line-height: 1.5;
+}
+
+a {
+    color: #09375a;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* ===== Header & Navbar (Flexbox) ===== */
+/* row-reverse: nav pindah ke kiri, judul ke kanan — pembuktian
+   flex-direction mengontrol arah, bukan cuma display:flex saja */
+header {
+    background-color: #09375a;
+    color: #fff;
+    padding: 1rem 1.5rem;
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+header nav a.aktif {
+    text-decoration: underline;
+    font-weight: 700;
+}
+
+.brand-group {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;    /* rata kanan, karena posisinya di sisi kanan setelah row-reverse */
+}
+
+header .subtitle {
+    font-size: 0.75rem;
+    color: #b8c9d9;
+    font-weight: 400;
+    margin-top: -2px;
+}
+
+header h1 {
+    font-size: 1.4rem;
+}
+
+header nav ul {
+    list-style: none;
+    display: flex;
+    gap: 1.25rem;
+}
+
+header nav a {
+    color: #fff;
+    font-weight: 500;
+}
+
+/* ===== Main Layout ===== */
+main {
+    max-width: 1000px;
+    margin: 2rem auto;
+    padding: 0 1.5rem;
+}
+
+section {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+section h2 {
+    margin-bottom: 1rem;
+    color: #09375a;
+}
+
+/* ===== Kartu Statistik (diganti dari Grid ke Flexbox) =====
+   Alasan: grid cocok untuk kisi kaku (jumlah kartu pasti/tetap),
+   flex cocok kalau ingin kartu menyesuaikan sendiri lewat wrap
+   saat jumlahnya berubah-ubah */
+main section:nth-of-type(2) {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+main section:nth-of-type(2) h2 {
+    flex-basis: 100%;
+}
+
+main section:nth-of-type(2) article {
+    flex: 1 1 200px;
+    background-color: #fff;
+    border: 1px solid #e2e6ea; 
+    border-left: 4px solid #09375a;
+    border-radius: 4px;
+    padding: 1.25rem 1.5rem;
+    text-align: left;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+main section:nth-of-type(2) article h3 {
+    font-size: 0.95rem;
+    color: #09375a;
+    margin-bottom: 0.5rem;
+}
+
+main section:nth-of-type(2) article p {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #09375a;
+}
+
+/* ===== Kolom Pencarian ===== */
+.search-box {
+    margin-bottom: 1rem;
+}
+
+.search-box input {
+    width: 100%;
+    max-width: 320px;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid #cdd4da;
+    border-radius: 4px;
+}
+
+/* ===== Tabel ===== */
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    text-align: left;
+    padding: 0.65rem 0.75rem;
+    border-bottom: 1px solid #e2e6ea;
+}
+
+thead {
+    background-color: #09375a;
+    color: #fff;
+}
+
+/* Zebra stripe dibalik: baris GANJIL yang ditint,
+   warna hover dibuat lebih gelap dari stripe */
+tbody tr:nth-child(odd) {
+    background-color: #eef4fa;
+}
+
+tbody tr:hover {
+    background-color: #d9e6f0;
+}
+
+td button {
+    padding: 0.35rem 0.7rem;
+    margin-right: 0.35rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.85rem;
+}
+
+td button:first-of-type {
+    background-color: #09375a;
+    color: #fff;
+}
+
+td button:last-of-type {
+    background-color: #a52a2a;
+    color: #fff;
+}
+
+/* Tombol dapat box-shadow saat hover — gabungan box-shadow
+   (dari section) dengan :hover (dari link) di tempat baru */
+td button:hover {
+    box-shadow: 0 2px 6px rgba(9, 55, 90, 0.35);
+    opacity: 0.92;
+}
+
+/* ===== Form ===== */
+form p {
+    margin-bottom: 1rem;
+}
+
+form label {
+    display: block;
+    margin-bottom: 0.35rem;
+    font-weight: 600;
+    color: #444;
+}
+
+form input,
+form select {
+    width: 100%;
+    max-width: 400px;
+    padding: 0.55rem 0.7rem;
+    border: 1px solid #cdd4da;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+/* Attribute selector dipakai di luar tombol: input wajib
+   diberi penanda garis kiri */
+input[required] {
+    border-left: 3px solid #09375a;
+}
+
+form button[type="submit"] {
+    background-color: #2f8f5b;
+    color: #fff;
+    border: none;
+    padding: 0.6rem 1.5rem;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+form button[type="submit"]:hover {
+    background-color: #164869;
+}
+
+/* ===== Footer ===== */
+/* Hierarki dibalik: teks copyright dibuat redup,
+   link (jika ada) dibuat paling menonjol */
+footer {
+    background-color: #09375a;
+    text-align: center;
+    padding: 2rem 1.25rem 1.25rem;
+    margin-top: 0;
+}
+
+footer p {
+    color: #8fa8bd;
+    font-size: 0.8rem;
+}
+
+footer a {
+    color: #fff;
+    font-weight: 600;
+}
+
+
+
+/* ===== Tabel Responsif ===== */
+.table-responsive {
+    overflow-x: auto;
+}
+
+/* ===== Hamburger Menu (checkbox hack) ===== */
+.nav-toggle-label {
+    display: none;
+    font-size: 1.6rem;
+    color: #fff;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+
+/* ===== Responsive Breakpoints ===== */
+
+/* Tablet ke bawah */
+@media (max-width: 900px) {
+    main section:nth-of-type(2) article {
+        flex-basis: 45%;
+    }
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+    header {
+        position: relative;
+    }
+
+    .nav-toggle-label {
+        display: block;
+    }
+
+    header nav {
+        display: none;
+        width: 100%;
+        order: 3;
+        margin-top: 1rem;
+    }
+
+    header nav.nav-open {
+        display: block;
+    }
+
+    header nav ul {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    main section:nth-of-type(2) article {
+        flex-basis: 100%;
+    }
+
+    form input,
+    form select {
+        max-width: 100%;
+    }
+
+    /* ===== Pesan Error Validasi ===== */
+    .error {
+        display: block;
+        color: #a52a2a;
+        font-size: 0.85rem;
+        margin-top: 0.25rem;
+    }
+}
+
+/* Monitor sangat lebar */
+@media (min-width: 1400px) {
+    main {
+        max-width: 1300px;
+    }
+}
