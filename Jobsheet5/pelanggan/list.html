@@ -12,8 +12,7 @@
             <h1>FAKHRI RENT CAR</h1>
             <p class="subtitle">SIRENMO — Sistem Informasi Rental Mobil</p>
         </div>
-        <input type="checkbox" id="nav-toggle" class="nav-toggle">
-        <label for="nav-toggle" class="nav-toggle-label">&#9776;</label>
+        <button type="button" id="nav-toggle-btn" class="nav-toggle-label" aria-label="Menu">&#9776;</button>
         <nav>
             <ul>
                 <li><a href="../index.html">Beranda</a></li>
@@ -28,6 +27,10 @@
     <main>
         <section>
             <h2>Daftar Pelanggan</h2>
+            <div class="search-box">
+                <label for="search-input">Cari Data</label>
+                <input type="text" id="search-input" placeholder="Ketik kata kunci...">
+            </div>
             <div class="table-responsive">
             <table>
                 <thead>
@@ -92,8 +95,8 @@
                         <td>repi@email.com</td>
                         <td>KTP</td>
                         <td>
-                            <button type="button">Edit</button>
-                            <button type="button">Hapus</button>
+                            <button type="button" class="btn-edit">Edit</button>
+                            <button type="button" class="btn-hapus">Hapus</button>
                         </td>
                     </tr>
                 </tbody>
@@ -105,5 +108,6 @@
     <footer>
         <p>&copy; 2026 Fakhri Rent Car &mdash; Pemrograman Web </p>
     </footer>
+    <script src="assets/js/app.js"></script>
 </body>
 </html>

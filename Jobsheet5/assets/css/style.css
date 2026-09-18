@@ -13,7 +13,7 @@ body {
 }
 
 a {
-    color: #1d5b8a;
+    color: #09375a;
     text-decoration: none;
 }
 
@@ -22,14 +22,35 @@ a:hover {
 }
 
 /* ===== Header & Navbar (Flexbox) ===== */
+/* row-reverse: nav pindah ke kiri, judul ke kanan — pembuktian
+   flex-direction mengontrol arah, bukan cuma display:flex saja */
 header {
-    background-color: #1d5b8a;
+    background-color: #09375a;
     color: #fff;
     padding: 1rem 1.5rem;
     display: flex;
+    flex-direction: row-reverse;
     align-items: center;
     justify-content: space-between;
     flex-wrap: wrap;
+}
+
+header nav a.aktif {
+    text-decoration: underline;
+    font-weight: 700;
+}
+
+.brand-group {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;    /* rata kanan, karena posisinya di sisi kanan setelah row-reverse */
+}
+
+header .subtitle {
+    font-size: 0.75rem;
+    color: #b8c9d9;
+    font-weight: 400;
+    margin-top: -2px;
 }
 
 header h1 {
@@ -64,33 +85,57 @@ section {
 
 section h2 {
     margin-bottom: 1rem;
-    color: #1d5b8a;
+    color: #09375a;
 }
 
-/* ===== Kartu Statistik (CSS Grid) ===== */
+/* ===== Kartu Statistik (diganti dari Grid ke Flexbox) =====
+   Alasan: grid cocok untuk kisi kaku (jumlah kartu pasti/tetap),
+   flex cocok kalau ingin kartu menyesuaikan sendiri lewat wrap
+   saat jumlahnya berubah-ubah */
 main section:nth-of-type(2) {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    display: flex;
+    flex-wrap: wrap;
     gap: 1rem;
 }
 
+main section:nth-of-type(2) h2 {
+    flex-basis: 100%;
+}
+
 main section:nth-of-type(2) article {
-    background-color: #eef4fa;
-    border-radius: 8px;
-    padding: 1.25rem;
-    text-align: center;
+    flex: 1 1 200px;
+    background-color: #fff;
+    border: 1px solid #e2e6ea; 
+    border-left: 4px solid #09375a;
+    border-radius: 4px;
+    padding: 1.25rem 1.5rem;
+    text-align: left;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
 }
 
 main section:nth-of-type(2) article h3 {
     font-size: 0.95rem;
-    color: #55677a;
+    color: #09375a;
     margin-bottom: 0.5rem;
 }
 
 main section:nth-of-type(2) article p {
     font-size: 1.8rem;
     font-weight: 700;
-    color: #1d5b8a;
+    color: #09375a;
+}
+
+/* ===== Kolom Pencarian ===== */
+.search-box {
+    margin-bottom: 1rem;
+}
+
+.search-box input {
+    width: 100%;
+    max-width: 320px;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid #cdd4da;
+    border-radius: 4px;
 }
 
 /* ===== Tabel ===== */
@@ -106,16 +151,18 @@ th, td {
 }
 
 thead {
-    background-color: #1d5b8a;
+    background-color: #09375a;
     color: #fff;
 }
 
-tbody tr:nth-child(even) {
-    background-color: #f7f9fb;
+/* Zebra stripe dibalik: baris GANJIL yang ditint,
+   warna hover dibuat lebih gelap dari stripe */
+tbody tr:nth-child(odd) {
+    background-color: #eef4fa;
 }
 
 tbody tr:hover {
-    background-color: #eef4fa;
+    background-color: #d9e6f0;
 }
 
 td button {
@@ -128,13 +175,20 @@ td button {
 }
 
 td button:first-of-type {
-    background-color: #f0ad4e;
+    background-color: #09375a;
     color: #fff;
 }
 
 td button:last-of-type {
-    background-color: #d9534f;
+    background-color: #a52a2a;
     color: #fff;
+}
+
+/* Tombol dapat box-shadow saat hover — gabungan box-shadow
+   (dari section) dengan :hover (dari link) di tempat baru */
+td button:hover {
+    box-shadow: 0 2px 6px rgba(9, 55, 90, 0.35);
+    opacity: 0.92;
 }
 
 /* ===== Form ===== */
@@ -159,8 +213,14 @@ form select {
     font-size: 1rem;
 }
 
+/* Attribute selector dipakai di luar tombol: input wajib
+   diberi penanda garis kiri */
+input[required] {
+    border-left: 3px solid #09375a;
+}
+
 form button[type="submit"] {
-    background-color: #1d5b8a;
+    background-color: #2f8f5b;
     color: #fff;
     border: none;
     padding: 0.6rem 1.5rem;
@@ -174,19 +234,33 @@ form button[type="submit"]:hover {
 }
 
 /* ===== Footer ===== */
+/* Hierarki dibalik: teks copyright dibuat redup,
+   link (jika ada) dibuat paling menonjol */
 footer {
+    background-color: #09375a;
     text-align: center;
-    padding: 1.25rem;
-    color: #7a8794;
-    font-size: 0.9rem;
+    padding: 2rem 1.25rem 1.25rem;
+    margin-top: 0;
 }
+
+footer p {
+    color: #8fa8bd;
+    font-size: 0.8rem;
+}
+
+footer a {
+    color: #fff;
+    font-weight: 600;
+}
+
+
 
 /* ===== Tabel Responsif ===== */
 .table-responsive {
     overflow-x: auto;
 }
 
-/* ===== Hamburger Menu (JS-driven) ===== */
+/* ===== Hamburger Menu (checkbox hack) ===== */
 .nav-toggle-label {
     display: none;
     font-size: 1.6rem;
@@ -196,33 +270,13 @@ footer {
     cursor: pointer;
 }
 
-/* ===== Pesan Error Validasi ===== */
-.error {
-    display: block;
-    color: #d9534f;
-    font-size: 0.85rem;
-    margin-top: 0.25rem;
-}
-
-/* ===== Kolom Pencarian ===== */
-.search-box {
-    margin-bottom: 1rem;
-}
-
-.search-box input {
-    width: 100%;
-    max-width: 320px;
-    padding: 0.5rem 0.75rem;
-    border: 1px solid #cdd4da;
-    border-radius: 4px;
-}
 
 /* ===== Responsive Breakpoints ===== */
 
 /* Tablet ke bawah */
-@media (max-width: 768px) {
-    main section:nth-of-type(2) {
-        grid-template-columns: repeat(2, 1fr);
+@media (max-width: 900px) {
+    main section:nth-of-type(2) article {
+        flex-basis: 45%;
     }
 }
 
@@ -252,12 +306,27 @@ footer {
         gap: 0.75rem;
     }
 
-    main section:nth-of-type(2) {
-        grid-template-columns: 1fr;
+    main section:nth-of-type(2) article {
+        flex-basis: 100%;
     }
 
     form input,
     form select {
         max-width: 100%;
+    }
+
+    /* ===== Pesan Error Validasi ===== */
+    .error {
+        display: block;
+        color: #a52a2a;
+        font-size: 0.85rem;
+        margin-top: 0.25rem;
+    }
+}
+
+/* Monitor sangat lebar */
+@media (min-width: 1400px) {
+    main {
+        max-width: 1300px;
     }
 }

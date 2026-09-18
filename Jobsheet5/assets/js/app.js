@@ -1,7 +1,8 @@
-// ===== Hamburger menu (JS-driven, menggantikan checkbox hack) =====
+// ===== 1. Hamburger Menu =====
 function initNavToggle() {
     const toggleBtn = document.getElementById("nav-toggle-btn");
     const nav = document.querySelector("header nav");
+    
     if (!toggleBtn || !nav) return;
 
     toggleBtn.addEventListener("click", function () {
@@ -9,7 +10,7 @@ function initNavToggle() {
     });
 }
 
-// ===== Konfirmasi hapus (front-end only, belum ke server) =====
+// ===== 2. Konfirmasi Hapus =====
 function initHapusConfirm() {
     document.querySelectorAll(".btn-hapus").forEach(function (btn) {
         btn.addEventListener("click", function () {
@@ -23,7 +24,7 @@ function initHapusConfirm() {
     });
 }
 
-// ===== Filter/pencarian tabel real-time =====
+// ===== 3. Filter/Pencarian Tabel Real-Time =====
 function initTableFilter() {
     const input = document.getElementById("search-input");
     const table = document.querySelector(".table-responsive table");
@@ -39,7 +40,7 @@ function initTableFilter() {
     });
 }
 
-// ===== Validasi form (client-side) =====
+// ===== 4. Helper Validasi Form =====
 function tampilkanError(input, pesan) {
     hapusError(input);
     const span = document.createElement("span");
@@ -55,6 +56,7 @@ function hapusError(input) {
     }
 }
 
+// ===== 5. Validasi Form Utama =====
 function initValidasiForm() {
     const form = document.getElementById("form-tambah");
     if (!form) return;
@@ -62,6 +64,7 @@ function initValidasiForm() {
     form.addEventListener("submit", function (e) {
         let valid = true;
 
+        // Validasi Judul / Nama (Adaptif untuk form buku/anggota)
         const judul = form.querySelector("[name='judul'], [name='nama']");
         if (judul && judul.value.trim() === "") {
             tampilkanError(judul, "Field ini wajib diisi.");
@@ -70,14 +73,16 @@ function initValidasiForm() {
             hapusError(judul);
         }
 
+        // Validasi Pengarang
         const pengarang = form.querySelector("[name='pengarang']");
         if (pengarang && pengarang.value.trim() === "") {
-            tampilkanError(pengarang, "Pengarang wajib diisi.");
+            tampilkanError(pengarang, "Field ini wajib diisi.");
             valid = false;
         } else if (pengarang) {
             hapusError(pengarang);
         }
 
+        // Validasi Tahun
         const tahun = form.querySelector("[name='tahun']");
         if (tahun) {
             const nilai = parseInt(tahun.value, 10);
@@ -89,6 +94,7 @@ function initValidasiForm() {
             }
         }
 
+        // Validasi Stok
         const stok = form.querySelector("[name='stok']");
         if (stok) {
             const nilai = parseInt(stok.value, 10);
@@ -100,12 +106,14 @@ function initValidasiForm() {
             }
         }
 
+        // Batalkan submit jika ada field yang invalid
         if (!valid) {
             e.preventDefault();
         }
     });
 }
 
+// Inisialisasi Seluruh Fungsi saat DOM siap
 document.addEventListener("DOMContentLoaded", function () {
     initNavToggle();
     initHapusConfirm();
