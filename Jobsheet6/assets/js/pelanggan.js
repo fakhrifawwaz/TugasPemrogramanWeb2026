@@ -32,10 +32,7 @@ async function muatDaftarPelanggan() {
             tbody.appendChild(tr);
         });
 
-        // Pasang ulang event listener hapus untuk elemen yang baru dibuat secara dinamis
-        if (typeof initHapusConfirm === "function") {
-            initHapusConfirm();
-        }
+       
     } catch (err) {
         tbody.innerHTML =
             "<tr><td colspan=\"4\">Gagal memuat data: " + err.message + "</td></tr>";
