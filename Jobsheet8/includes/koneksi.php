@@ -3,7 +3,7 @@ $host = "localhost";
 $port = "5432";
 $db   = "sirenmo";
 $user = "postgres";
-$pass = "postgres"; // Sesuaikan dengan password PostgreSQL milikmu
+$pass = "12345678"; // Sesuaikan dengan password PostgreSQL milikmu
 
 try {
     $pdo = new PDO("pgsql:host=$host;port=$port;dbname=$db", $user, $pass);
