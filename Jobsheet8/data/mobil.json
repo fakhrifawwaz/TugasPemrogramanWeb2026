@@ -1,6 +1,21 @@
 [
-    { "no_mobil": "N 001 SIB", "merek": "Toyota", "tipe": "Avanza", "tahun": 2020 },
-    { "no_mobil": "N 002 SIB", "merek": "Honda", "tipe": "Jazz", "tahun": 2019 },
-    { "no_mobil": "N 003 SIB", "merek": "Toyota", "tipe": "Innova", "tahun": 2021 },
-    { "no_mobil": "N 004 SIB", "merek": "Mitsubishi", "tipe": "Pajero", "tahun": 2020 }
+    {
+        "no_mobil": "N 003 SIB",
+        "merek": "Honda",
+        "tipe": "HR-V",
+        "tahun": 2022
+    },
+    {
+        "no_mobil": "N 004 SIB",
+        "merek": "Honda",
+        "tipe": "Jazz",
+        "tahun": 2019
+    },
+    {
+        "no_mobil": "N 005 SIB",
+        "merek": "Suzuki",
+        "tipe": "Ertiga",
+        "tahun": 2020
+    }
+
 ]
