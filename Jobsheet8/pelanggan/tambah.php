@@ -1,68 +1,39 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Fakhri Rent Car | Tambah Pelanggan</title>
-    <link rel="stylesheet" href="../assets/css/style.css">
-</head>
-<body>
-    <header>
-        <div class="brand-group">
-            <h1>FAKHRI RENT CAR</h1>
-            <p class="subtitle">SIRENMO — Sistem Informasi Rental Mobil</p>
+<?php
+session_start();
+$page_title = "Tambah Pelanggan";
+require __DIR__ . '/../includes/header.php';
+?>
+
+<section>
+    <h2>Tambah Pelanggan</h2>
+
+    <?php if (isset($_SESSION['flash'])): ?>
+        <div class="alert alert-<?php echo $_SESSION['flash']['type']; ?>" style="margin-bottom: 15px; padding: 10px; background-color: #f8d7da; color: #721c24; border-radius: 4px;">
+            <?php 
+                echo $_SESSION['flash']['pesan']; 
+                unset($_SESSION['flash']);
+            ?>
         </div>
-        <button type="button" id="nav-toggle-btn" class="nav-toggle-label" aria-label="Menu">&#9776;</button>
-        <nav>
-            <ul>
-                <li><a href="../index.html">Beranda</a></li>
-                <li><a href="../mobil/list.html">Daftar Mobil</a></li>
-                <li><a href="../mobil/tambah.html">Tambah Mobil</a></li>
-                <li><a href="list.html">Daftar Pelanggan</a></li>
-                <li><a href="tambah.html" class="aktif">Tambah Pelanggan</a></li>
-            </ul>
-        </nav>
-    </header>
+    <?php endif; ?>
 
-    <main>
-        <section>
-            <h2>Tambah Pelanggan</h2>
-            <form id="form-tambah">
-                <p>
-                    <label for="nama">Nama</label><br>
-                    <input type="text" id="nama" name="nama" required>
-                </p>
-                <p>
-                    <label for="alamat">Alamat</label><br>
-                    <input type="text" id="alamat" name="alamat" required>
-                </p>
-                <p>
-                    <label for="telepon">No. Telepon</label><br>
-                    <input type="text" id="telepon" name="telepon" required>
-                </p>
-                <p>
-                    <label for="email">Email</label><br>
-                    <input type="email" id="email" name="email" required>
-                </p>
-                <p>
-                    <label for="jaminan">Jaminan</label><br>
-                    <select id="jaminan" name="jaminan">
-                        <option value="KTP">KTP</option>
-                        <option value="SIM">SIM</option>
-                        <option value="KTM">KTM</option>
+    <form action="proses_tambah.php" method="POST">
+        <p>
+            <label for="nama">Nama</label><br>
+            <input type="text" id="nama" name="nama" required>
+        </p>
+        <p>
+            <label for="alamat">Alamat</label><br>
+            <input type="text" id="alamat" name="alamat" required>
+        </p>
+        <p>
+            <label for="no_telepon">No. Telepon</label><br>
+            <input type="text" id="no_telepon" name="no_telepon" required>
+        </p>
+        <p>
+            <button type="submit" class="btn btn-primary">Simpan</button>
+            <a href="list.php" class="btn btn-secondary">Batal</a>
+        </p>
+    </form>
+</section>
 
-                    </select>
-                </p>
-                <p>
-                    <button type="submit">Simpan</button>
-                </p>
-            </form>
-        </section>
-    </main>
-
-    <footer>
-        <p>&copy; 2026 Fakhri Rent Car &mdash; Pemrograman Web </p>
-    </footer>
-    <script src="../assets/js/app.js"></script>
-</body>
-</html>
+<?php require __DIR__ . '/../includes/footer.php'; ?>
