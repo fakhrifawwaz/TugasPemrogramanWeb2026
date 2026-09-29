@@ -31,7 +31,7 @@ if (!$pelanggan) {
         </div>
     <?php endif; ?>
 
-    <form id="form-edit" method="post" action="proses_edit.php">
+    <form id="form-edit" class="form-edit" method="post" action="proses_edit.php">
         <input type="hidden" name="id" value="<?php echo htmlspecialchars($pelanggan['id']); ?>">
 
         <p>
