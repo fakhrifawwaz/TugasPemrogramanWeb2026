@@ -1,4 +1,3 @@
-/* ===== Reset & Base ===== */
 * {
     box-sizing: border-box;
     margin: 0;
@@ -10,6 +9,9 @@ body {
     color: #2b2b2b;
     background-color: #f5f6f8;
     line-height: 1.5;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
 a {
@@ -21,9 +23,8 @@ a:hover {
     text-decoration: underline;
 }
 
-/* ===== Header & Navbar (Flexbox) ===== */
-/* row-reverse: nav pindah ke kiri, judul ke kanan — pembuktian
-   flex-direction mengontrol arah, bukan cuma display:flex saja */
+/* ===== Header & Navbar (Flexbox Asli Jobsheet 7) ===== */
+/* row-reverse: nav pindah ke kiri, judul ke kanan — pembuktian flex-direction */
 header {
     background-color: #09375a;
     color: #fff;
@@ -35,7 +36,8 @@ header {
     flex-wrap: wrap;
 }
 
-header nav a.aktif {
+header nav a.aktif,
+header nav a.active {
     text-decoration: underline;
     font-weight: 700;
 }
@@ -70,6 +72,8 @@ header nav a {
 
 /* ===== Main Layout ===== */
 main {
+    flex: 1;
+    width: 100%;
     max-width: 1000px;
     margin: 2rem auto;
     padding: 0 1.5rem;
@@ -88,11 +92,9 @@ section h2 {
     color: #09375a;
 }
 
-/* ===== Kartu Statistik (diganti dari Grid ke Flexbox) =====
-   Alasan: grid cocok untuk kisi kaku (jumlah kartu pasti/tetap),
-   flex cocok kalau ingin kartu menyesuaikan sendiri lewat wrap
-   saat jumlahnya berubah-ubah */
-main section:nth-of-type(2) {
+/* ===== Kartu Statistik Dashboard ===== */
+main section:nth-of-type(2),
+.dashboard-cards {
     display: flex;
     flex-wrap: wrap;
     gap: 1rem;
@@ -102,7 +104,8 @@ main section:nth-of-type(2) h2 {
     flex-basis: 100%;
 }
 
-main section:nth-of-type(2) article {
+main section:nth-of-type(2) article,
+.card {
     flex: 1 1 200px;
     background-color: #fff;
     border: 1px solid #e2e6ea; 
@@ -113,32 +116,84 @@ main section:nth-of-type(2) article {
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
 }
 
-main section:nth-of-type(2) article h3 {
+main section:nth-of-type(2) article h3,
+.card h3 {
     font-size: 0.95rem;
     color: #09375a;
     margin-bottom: 0.5rem;
 }
 
-main section:nth-of-type(2) article p {
+main section:nth-of-type(2) article p,
+.card .number {
     font-size: 1.8rem;
     font-weight: 700;
     color: #09375a;
 }
 
-/* ===== Kolom Pencarian ===== */
+/* ===== Form Pencarian (Fitur Jobsheet 9) ===== */
+.search-container,
 .search-box {
-    margin-bottom: 1rem;
+    margin-bottom: 1.25rem;
 }
 
+.search-container form,
+.search-box form {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.search-container label,
+.search-box label {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: #444;
+}
+
+.search-container input,
 .search-box input {
     width: 100%;
     max-width: 320px;
     padding: 0.5rem 0.75rem;
     border: 1px solid #cdd4da;
     border-radius: 4px;
+    font-size: 0.9rem;
 }
 
-/* ===== Tabel ===== */
+.search-container button,
+.search-box button {
+    background-color: #2f8f5b; /* Hijau tombol pencarian */
+    color: #fff;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.search-container button:hover,
+.search-box button:hover {
+    background-color: #246e46;
+}
+
+.search-container a.btn-reset,
+.search-box a.btn-reset {
+    background-color: #6c757d;
+    color: #fff;
+    padding: 0.5rem 0.8rem;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    text-decoration: none;
+}
+
+/* ===== Tabel Data ===== */
+.table-responsive {
+    overflow-x: auto;
+    width: 100%;
+}
+
 table {
     width: 100%;
     border-collapse: collapse;
@@ -155,8 +210,7 @@ thead {
     color: #fff;
 }
 
-/* Zebra stripe dibalik: baris GANJIL yang ditint,
-   warna hover dibuat lebih gelap dari stripe */
+/* Zebra stripe dibalik: baris GANJIL yang ditint */
 tbody tr:nth-child(odd) {
     background-color: #eef4fa;
 }
@@ -165,33 +219,78 @@ tbody tr:hover {
     background-color: #d9e6f0;
 }
 
-td button {
+/* ===== Tombol Aksi Tabel (Edit & Hapus via POST di Jobsheet 9) ===== */
+td button,
+td a.btn-edit,
+td .btn-hapus {
+    display: inline-block;
     padding: 0.35rem 0.7rem;
     margin-right: 0.35rem;
     border: none;
     border-radius: 4px;
     cursor: pointer;
     font-size: 0.85rem;
+    font-weight: 500;
+    text-decoration: none;
 }
 
-td button:first-of-type {
+/* Tombol Edit (Tautan a.btn-edit disamakan dengan gaya tombol) */
+td button:first-of-type,
+td a.btn-edit {
     background-color: #09375a;
     color: #fff;
 }
 
-td button:last-of-type {
+/* Form Hapus Sejajar */
+td form.form-hapus {
+    display: inline !important;
+    margin: 0;
+    padding: 0;
+}
+
+td button:last-of-type,
+td form.form-hapus button {
     background-color: #a52a2a;
     color: #fff;
 }
 
-/* Tombol dapat box-shadow saat hover — gabungan box-shadow
-   (dari section) dengan :hover (dari link) di tempat baru */
-td button:hover {
+td button:hover,
+td a.btn-edit:hover,
+td form.form-hapus button:hover {
     box-shadow: 0 2px 6px rgba(9, 55, 90, 0.35);
     opacity: 0.92;
 }
 
-/* ===== Form ===== */
+/* ===== Navigasi Pagination Sisi Server (Jobsheet 9) ===== */
+.pagination {
+    display: flex;
+    gap: 0.4rem;
+    margin-top: 1.25rem;
+    justify-content: flex-start;
+}
+
+.pagination a {
+    display: inline-block;
+    padding: 0.35rem 0.75rem;
+    border: 1px solid #cdd4da;
+    border-radius: 4px;
+    color: #09375a;
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.pagination a:hover {
+    background-color: #eef4fa;
+}
+
+.pagination a.active {
+    background-color: #09375a;
+    color: #fff;
+    border-color: #09375a;
+}
+
+/* ===== Form Styling ===== */
 form p {
     margin-bottom: 1rem;
 }
@@ -204,22 +303,30 @@ form label {
 }
 
 form input,
-form select {
+form select,
+form textarea {
     width: 100%;
     max-width: 400px;
     padding: 0.55rem 0.7rem;
     border: 1px solid #cdd4da;
     border-radius: 4px;
     font-size: 1rem;
+    font-family: inherit;
 }
 
-/* Attribute selector dipakai di luar tombol: input wajib
-   diberi penanda garis kiri */
-input[required] {
+form textarea {
+    resize: vertical;
+}
+
+/* Attribute selector: input wajib diberi penanda garis kiri */
+input[required],
+textarea[required],
+select[required] {
     border-left: 3px solid #09375a;
 }
 
-form button[type="submit"] {
+form button[type="submit"],
+.btn-primary {
     background-color: #2f8f5b;
     color: #fff;
     border: none;
@@ -227,20 +334,37 @@ form button[type="submit"] {
     border-radius: 4px;
     font-size: 1rem;
     cursor: pointer;
+    font-weight: 600;
 }
 
-form button[type="submit"]:hover {
-    background-color: #164869;
+form button[type="submit"]:hover,
+.btn-primary:hover {
+    background-color: #246e46;
+}
+
+.btn-secondary,
+.btn-batal {
+    display: inline-block;
+    background-color: transparent;
+    color: #09375a;
+    border: 1px solid #09375a;
+    padding: 0.55rem 1.2rem;
+    border-radius: 4px;
+    font-size: 1rem;
+    text-decoration: none;
+    margin-left: 0.5rem;
+}
+
+.btn-secondary:hover {
+    background-color: #eef4fa;
 }
 
 /* ===== Footer ===== */
-/* Hierarki dibalik: teks copyright dibuat redup,
-   link (jika ada) dibuat paling menonjol */
 footer {
     background-color: #09375a;
     text-align: center;
-    padding: 2rem 1.25rem 1.25rem;
-    margin-top: 0;
+    padding: 1.5rem 1.25rem;
+    margin-top: auto;
 }
 
 footer p {
@@ -253,14 +377,32 @@ footer a {
     font-weight: 600;
 }
 
-
-
-/* ===== Tabel Responsif ===== */
-.table-responsive {
-    overflow-x: auto;
+/* ===== Flash Message ===== */
+.alert,
+.flash {
+    padding: 0.75rem 1rem;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+    font-weight: 500;
+    font-size: 0.9rem;
 }
 
-/* ===== Hamburger Menu (checkbox hack) ===== */
+.alert-success,
+.flash-success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.alert-danger,
+.flash-danger,
+.flash-error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+/* ===== Hamburger Menu ===== */
 .nav-toggle-label {
     display: none;
     font-size: 1.6rem;
@@ -270,20 +412,25 @@ footer a {
     cursor: pointer;
 }
 
-
 /* ===== Responsive Breakpoints ===== */
 
-/* Tablet ke bawah */
+/* Tablet (Maksimal 900px) */
 @media (max-width: 900px) {
     main section:nth-of-type(2) article {
         flex-basis: 45%;
     }
 }
 
-/* Mobile */
+/* Mobile (Maksimal 480px - Pengujian Layar HP) */
 @media (max-width: 480px) {
     header {
         position: relative;
+        flex-direction: row; /* Kembali normal agar tombol hamburger di kanan/kiri */
+        padding: 0.8rem 1rem;
+    }
+
+    .brand-group {
+        align-items: flex-start; /* Brand rata kiri saat mobile */
     }
 
     .nav-toggle-label {
@@ -293,10 +440,11 @@ footer a {
     header nav {
         display: none;
         width: 100%;
-        order: 3;
-        margin-top: 1rem;
+        margin-top: 0.8rem;
     }
 
+    /* Saat menu dibuka via JavaScript (app.js) */
+    header nav.active,
     header nav.nav-open {
         display: block;
     }
@@ -304,18 +452,45 @@ footer a {
     header nav ul {
         flex-direction: column;
         gap: 0.75rem;
+        background-color: #06263f;
+        padding: 1rem;
+        border-radius: 4px;
+    }
+
+    main {
+        padding: 0 0.8rem;
+        margin: 1rem auto;
+    }
+
+    section {
+        padding: 1rem;
     }
 
     main section:nth-of-type(2) article {
         flex-basis: 100%;
     }
 
+    /* Form menyesuaikan layar HP */
     form input,
-    form select {
+    form select,
+    form textarea {
         max-width: 100%;
     }
 
-    /* ===== Pesan Error Validasi ===== */
+    /* Pencarian penuh di HP */
+    .search-container input,
+    .search-box input {
+        max-width: 100%;
+    }
+
+    /* Tabel dapat di-scroll vertikal & horizontal dengan mulus di HP */
+    .table-responsive {
+        display: block;
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
     .error {
         display: block;
         color: #a52a2a;
@@ -324,38 +499,9 @@ footer a {
     }
 }
 
-/* Monitor sangat lebar */
+/* Monitor Sangat Lebar */
 @media (min-width: 1400px) {
     main {
         max-width: 1300px;
     }
 }
-
-/* ===== Flash Message ===== */
-.flash {
-    padding: 0.75rem 1rem;
-    border-radius: 6px;
-    margin-bottom: 1rem;
-    font-weight: 500;
-}
-
-.flash-success {
-    background-color: #d4edda;
-    color: #155724;
-}
-
-.flash-error {
-    background-color: #f8d7da;
-    color: #721c24;
-}
-
-/* ===== Tombol & Alert (Jobsheet 9: CRUD) ===== */
-.btn { display:inline-block; padding:.35rem .8rem; border:none; border-radius:4px;
-       font-size:.85rem; cursor:pointer; color:#fff; text-decoration:none; }
-.btn-primary { background:#09375a; }
-.btn-danger { background:#a52a2a; }
-.btn-secondary { background:#6c757d; }
-.btn:hover { opacity:.9; text-decoration:none; }
-.alert { padding:.75rem 1rem; border-radius:6px; margin-bottom:1rem; }
-.alert-success { background:#d4edda; color:#155724; }
-.alert-danger, .flash-danger { background:#f8d7da; color:#721c24; }

@@ -7,40 +7,65 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit;
 }
 
-$id         = $_POST['id'] ?? null;
-$nama       = trim($_POST['nama'] ?? '');
-$alamat     = trim($_POST['alamat'] ?? '');
-$no_telepon = trim($_POST['no_telepon'] ?? '');
+$id     = $_POST['id'] ?? null;
+$nama   = trim($_POST['nama'] ?? '');
+$alamat = trim($_POST['alamat'] ?? '');
+$no_hp  = trim($_POST['no_hp'] ?? '');
 
 if (!$id) {
     header('Location: list.php');
     exit;
 }
 
-if ($nama === '' || $alamat === '' || $no_telepon === '') {
-    $_SESSION['flash'] = ['type' => 'danger', 'pesan' => 'Semua kolom wajib diisi!'];
+$errors = [];
+
+if (empty($nama)) {
+    $errors[] = "Nama pelanggan wajib diisi.";
+}
+if (empty($alamat)) {
+    $errors[] = "Alamat wajib diisi.";
+}
+if (empty($no_hp)) {
+    $errors[] = "Nomor HP wajib diisi.";
+}
+
+if (!empty($errors)) {
+    $_SESSION['flash'] = [
+        'type'    => 'danger',
+        'message' => implode(' ', $errors)
+    ];
     header('Location: edit.php?id=' . urlencode($id));
     exit;
 }
 
 try {
     $stmt = $pdo->prepare("
-        UPDATE pelanggan
-        SET nama = :nama, alamat = :alamat, no_telepon = :no_telepon
+        UPDATE pelanggan 
+        SET nama = :nama, 
+            alamat = :alamat, 
+            no_hp = :no_hp 
         WHERE id = :id
     ");
+
     $stmt->execute([
-        'nama'       => $nama,
-        'alamat'     => $alamat,
-        'no_telepon' => $no_telepon,
-        'id'         => (int)$id,
+        'nama'   => $nama,
+        'alamat' => $alamat,
+        'no_hp'  => $no_hp,
+        'id'     => $id,
     ]);
 
-    $_SESSION['flash'] = ['type' => 'success', 'pesan' => 'Data pelanggan berhasil diperbarui!'];
+    $_SESSION['flash'] = [
+        'type'    => 'success',
+        'message' => 'Data pelanggan berhasil diperbarui!'
+    ];
     header('Location: list.php');
     exit;
+
 } catch (PDOException $e) {
-    $_SESSION['flash'] = ['type' => 'danger', 'pesan' => 'Gagal memperbarui data: ' . $e->getMessage()];
+    $_SESSION['flash'] = [
+        'type'    => 'danger',
+        'message' => 'Gagal memperbarui data: ' . $e->getMessage()
+    ];
     header('Location: edit.php?id=' . urlencode($id));
     exit;
 }

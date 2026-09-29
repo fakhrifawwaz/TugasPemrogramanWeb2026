@@ -1,52 +1,48 @@
 <?php
-session_start();
+$page_title = "Daftar Mobil";
+include __DIR__ . '/../includes/header.php';
 require __DIR__ . '/../includes/koneksi.php';
 
+$flash = $_SESSION['flash'] ?? null;
+unset($_SESSION['flash']);
 
+$perPage = 5;
+$page = max(1, (int) ($_GET['page'] ?? 1));
+$offset = ($page - 1) * $perPage;
 $keyword = trim($_GET['q'] ?? '');
 
 if ($keyword !== '') {
-    $stmt = $pdo->prepare("
-        SELECT * FROM mobil 
-        WHERE merek ILIKE :q 
-           OR tipe ILIKE :q 
-           OR no_mobil ILIKE :q 
-        ORDER BY id DESC
-    ");
-    $stmt->execute(['q' => "%$keyword%"]);
-    $daftarMobil = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $hitung = $pdo->prepare("SELECT COUNT(*) FROM mobil WHERE no_mobil ILIKE :kw OR merek ILIKE :kw OR tipe ILIKE :kw");
+    $hitung->execute(['kw' => '%' . $keyword . '%']);
+    $totalRows = $hitung->fetchColumn();
+
+    $stmt = $pdo->prepare("SELECT * FROM mobil WHERE no_mobil ILIKE :kw OR merek ILIKE :kw OR tipe ILIKE :kw ORDER BY id DESC LIMIT :limit OFFSET :offset");
+    $stmt->bindValue('kw', '%' . $keyword . '%');
 } else {
-    $daftarMobil = $pdo->query("SELECT * FROM mobil ORDER BY id DESC")->fetchAll(PDO::FETCH_ASSOC);
+    $totalRows = $pdo->query("SELECT COUNT(*) FROM mobil")->fetchColumn();
+    $stmt = $pdo->prepare("SELECT * FROM mobil ORDER BY id DESC LIMIT :limit OFFSET :offset");
 }
 
-$page_title = "Daftar Mobil";
-require __DIR__ . '/../includes/header.php';
+$stmt->bindValue('limit', $perPage, PDO::PARAM_INT);
+$stmt->bindValue('offset', $offset, PDO::PARAM_INT);
+$stmt->execute();
+
+$daftarMobil = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$totalPages = max(1, (int) ceil($totalRows / $perPage));
 ?>
 
-<div class="container">
+<section class="container my-4">
     <h2>Daftar Mobil</h2>
 
-    <?php if (isset($_SESSION['flash'])): ?>
-        <div class="alert alert-<?php echo $_SESSION['flash']['type']; ?>">
-            <?php 
-                echo htmlspecialchars($_SESSION['flash']['pesan']); 
-                unset($_SESSION['flash']);
-            ?>
+    <?php if ($flash): ?>
+        <div class="alert alert-<?php echo htmlspecialchars($flash['type']); ?>">
+            <?php echo htmlspecialchars($flash['message']); ?>
         </div>
     <?php endif; ?>
 
-    <div class="mb-3" style="display: flex; justify-content: space-between; align-items: center; gap: 10px;">
-        <a href="tambah.php" class="btn btn-primary">Tambah Mobil Baru</a>
-
-        <!-- Form Pencarian -->
-        <form method="GET" action="list.php" style="display: flex; gap: 5px;">
-            <input 
-                type="text" 
-                name="q" 
-                value="<?php echo htmlspecialchars($keyword); ?>" 
-                placeholder="Cari merek, tipe, atau plat..." 
-                style="padding: 6px 10px; border: 1px solid #ccc; border-radius: 4px;"
-            >
+    <div class="search-container mb-3">
+        <form method="get" action="list.php">
+            <input type="text" name="q" value="<?php echo htmlspecialchars($keyword); ?>" placeholder="Cari plat, merek, atau tipe..." class="form-control" style="width: auto; display: inline-block;">
             <button type="submit" class="btn btn-primary">Cari</button>
             <?php if ($keyword !== ''): ?>
                 <a href="list.php" class="btn btn-secondary">Reset</a>
@@ -54,47 +50,36 @@ require __DIR__ . '/../includes/header.php';
         </form>
     </div>
 
-    <div class="table-responsive">
-    <table class="table">
+    <table class="table table-bordered">
         <thead>
             <tr>
-                <th>No. Plat</th>
+                <th>No</th>
+                <th>No. Plat Mobil</th>
                 <th>Merek</th>
                 <th>Tipe</th>
                 <th>Tahun</th>
-                <th>Tanggal Input</th>
                 <th>Aksi</th>
             </tr>
         </thead>
         <tbody>
             <?php if (empty($daftarMobil)): ?>
                 <tr>
-                    <td colspan="6" style="text-align: center;">
-                        <?php echo $keyword !== '' ? 'Data mobil tidak ditemukan.' : 'Belum ada data mobil.'; ?>
-                    </td>
+                    <td colspan="6" class="text-center">Data mobil tidak ditemukan.</td>
                 </tr>
             <?php else: ?>
-                <?php foreach ($daftarMobil as $mobil): ?>
+                <?php foreach ($daftarMobil as $index => $mobil): ?>
                     <tr>
+                        <td><?php echo $offset + $index + 1; ?></td>
                         <td><?php echo htmlspecialchars($mobil['no_mobil']); ?></td>
                         <td><?php echo htmlspecialchars($mobil['merek']); ?></td>
                         <td><?php echo htmlspecialchars($mobil['tipe']); ?></td>
                         <td><?php echo htmlspecialchars($mobil['tahun']); ?></td>
                         <td>
-                            <?php 
-                                if (!empty($mobil['created_at'])) {
-                                    echo date('d-m-Y H:i', strtotime($mobil['created_at']));
-                                } else {
-                                    echo '-';
-                                }
-                            ?>
-                        </td>
-                        <td>
-                            <a href="edit.php?id=<?php echo $mobil['id']; ?>" class="btn btn-primary">Edit</a>
-                            <form action="hapus.php" method="post" style="display:inline"
-                                  onsubmit="return confirm('Yakin ingin menghapus data ini?')">
+                            <a href="edit.php?id=<?php echo $mobil['id']; ?>" class="btn btn-warning btn-sm btn-edit">Edit</a>
+                            
+                            <form class="form-hapus" method="post" action="hapus.php" style="display:inline;">
                                 <input type="hidden" name="id" value="<?php echo $mobil['id']; ?>">
-                                <button type="submit" class="btn btn-danger">Hapus</button>
+                                <button type="submit" class="btn btn-danger btn-sm">Hapus</button>
                             </form>
                         </td>
                     </tr>
@@ -102,7 +87,17 @@ require __DIR__ . '/../includes/header.php';
             <?php endif; ?>
         </tbody>
     </table>
-    </div>
-</div>
 
-<?php require __DIR__ . '/../includes/footer.php'; ?>
+    <?php if ($totalPages > 1): ?>
+        <nav class="pagination mt-3">
+            <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+                <a href="list.php?page=<?php echo $i; ?><?php echo $keyword !== '' ? '&q=' . urlencode($keyword) : ''; ?>" 
+                   class="btn btn-sm <?php echo $i === $page ? 'btn-primary active' : 'btn-outline-primary'; ?>">
+                    <?php echo $i; ?>
+                </a>
+            <?php endfor; ?>
+        </nav>
+    <?php endif; ?>
+</section>
+
+<?php include __DIR__ . '/../includes/footer.php'; ?>

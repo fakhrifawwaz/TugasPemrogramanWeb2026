@@ -1,39 +1,41 @@
 <?php
-session_start();
 $page_title = "Tambah Pelanggan";
-require __DIR__ . '/../includes/header.php';
+include __DIR__ . '/../includes/header.php';
+
+$flash = $_SESSION['flash'] ?? null;
+unset($_SESSION['flash']);
 ?>
 
 <section>
-    <h2>Tambah Pelanggan</h2>
+    <h2>Tambah Data Pelanggan</h2>
 
-    <?php if (isset($_SESSION['flash'])): ?>
-        <div class="alert alert-<?php echo $_SESSION['flash']['type']; ?>" style="margin-bottom: 15px; padding: 10px; background-color: #f8d7da; color: #721c24; border-radius: 4px;">
-            <?php 
-                echo $_SESSION['flash']['pesan']; 
-                unset($_SESSION['flash']);
-            ?>
+    <?php if ($flash): ?>
+        <div class="alert alert-<?php echo htmlspecialchars($flash['type']); ?>">
+            <?php echo htmlspecialchars($flash['message']); ?>
         </div>
     <?php endif; ?>
 
-    <form action="proses_tambah.php" method="POST">
+    <form id="form-tambah" method="post" action="proses_tambah.php">
         <p>
-            <label for="nama">Nama</label><br>
-            <input type="text" id="nama" name="nama" required>
+            <label for="nama">Nama Pelanggan:</label>
+            <input type="text" id="nama" name="nama" placeholder="Contoh: Ahmad Subagyo" required>
         </p>
+
         <p>
-            <label for="alamat">Alamat</label><br>
-            <input type="text" id="alamat" name="alamat" required>
+            <label for="alamat">Alamat:</label>
+            <textarea id="alamat" name="alamat" rows="3" placeholder="Contoh: Jl. Mawar No. 12, Pasuruan" required></textarea>
         </p>
+
         <p>
-            <label for="no_telepon">No. Telepon</label><br>
-            <input type="text" id="no_telepon" name="no_telepon" required>
+            <label for="no_hp">Nomor HP / WhatsApp:</label>
+            <input type="text" id="no_hp" name="no_hp" placeholder="Contoh: 081234567890" required>
         </p>
+
         <p>
-            <button type="submit" class="btn btn-primary">Simpan</button>
-            <a href="list.php" class="btn btn-secondary">Batal</a>
+            <button type="submit" class="btn-primary">Simpan</button>
+            <a href="list.php" class="btn-secondary">Batal</a>
         </p>
     </form>
 </section>
 
-<?php require __DIR__ . '/../includes/footer.php'; ?>
+<?php include __DIR__ . '/../includes/footer.php'; ?>

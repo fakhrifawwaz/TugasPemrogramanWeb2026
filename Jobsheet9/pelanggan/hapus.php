@@ -7,17 +7,22 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit;
 }
 
-$id = (int)($_POST['id'] ?? 0);
+$id = $_POST['id'] ?? null;
 
-if ($id > 0) {
+if ($id) {
     try {
         $stmt = $pdo->prepare("DELETE FROM pelanggan WHERE id = :id");
         $stmt->execute(['id' => $id]);
-        $_SESSION['flash'] = $stmt->rowCount() > 0
-            ? ['type' => 'success', 'pesan' => 'Data pelanggan berhasil dihapus.']
-            : ['type' => 'danger',  'pesan' => 'Data pelanggan tidak ditemukan.'];
+
+        $_SESSION['flash'] = [
+            'type'    => 'success',
+            'message' => 'Data pelanggan berhasil dihapus.'
+        ];
     } catch (PDOException $e) {
-        $_SESSION['flash'] = ['type' => 'danger', 'pesan' => 'Gagal menghapus: ' . $e->getMessage()];
+        $_SESSION['flash'] = [
+            'type'    => 'danger',
+            'message' => 'Gagal menghapus data pelanggan: ' . $e->getMessage()
+        ];
     }
 }
 

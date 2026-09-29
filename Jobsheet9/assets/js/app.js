@@ -1,125 +1,51 @@
-// ===== 1. Hamburger Menu =====
-function initNavToggle() {
-    const toggleBtn = document.getElementById("nav-toggle-btn");
-    const nav = document.querySelector("header nav");
-    
-    if (!toggleBtn || !nav) return;
+/**
+ * SIRENMO - Sistem Informasi Rental Mobil
+ * Script Aplikasi Utama
+ */
 
-    toggleBtn.addEventListener("click", function () {
-        nav.classList.toggle("nav-open");
-    });
-}
+document.addEventListener("DOMContentLoaded", function () {
+    initHapusConfirm();
+    initNavToggle();
+});
 
-// ===== 2. Konfirmasi Hapus =====
-// Memakai event delegation di document karena baris tabel
-// dirender dinamis via fetch (mobil.js/pelanggan.js)
+/**
+ * Konfirmasi Hapus via Event 'submit'
+ *
+ * Mengantisipasi form penghapusan data mobil / pelanggan dengan class "form-hapus".
+ * Jika pengguna menekan "Batal/Cancel", submit form akan dibatalkan (preventDefault).
+ */
 function initHapusConfirm() {
-    document.addEventListener("click", function (e) {
-        const btn = e.target.closest(".btn-hapus");
-        if (!btn) return;
+    document.addEventListener("submit", function (e) {
+        const form = e.target;
+        
+        // Memastikan event submit berasal dari form dengan class "form-hapus"
+        if (!form.classList.contains("form-hapus")) return;
 
-        const row = btn.closest("tr");
-        const nama = row ? row.querySelector("td")?.textContent : "data ini";
-        const yakin = confirm("Yakin ingin menghapus \"" + nama + "\"?");
-        if (yakin && row) {
-            row.remove();
-        }
-    });
-}
+        // Mengambil baris tabel (tr) induk untuk membaca nama/identitas data
+        const row = form.closest("tr");
+        
+        // Mengambil teks dari kolom pertama (misal: No. Mobil / No. KTP / Nama)
+        const identifier = row ? row.querySelector("td")?.textContent.trim() : "data ini";
 
-// ===== 3. Filter/Pencarian Tabel Real-Time =====
-function initTableFilter() {
-    const input = document.getElementById("search-input");
-    const table = document.querySelector(".table-responsive table");
-    if (!input || !table) return;
+        const yakin = confirm('Apakah Anda yakin ingin menghapus "' + identifier + '"?');
 
-    input.addEventListener("keyup", function () {
-        const keyword = input.value.toLowerCase();
-        const rows = table.querySelectorAll("tbody tr");
-        rows.forEach(function (row) {
-            const teks = row.textContent.toLowerCase();
-            row.style.display = teks.includes(keyword) ? "" : "none";
-        });
-    });
-}
-
-// ===== 4. Helper Validasi Form =====
-function tampilkanError(input, pesan) {
-    hapusError(input);
-    const span = document.createElement("span");
-    span.className = "error";
-    span.textContent = pesan;
-    input.insertAdjacentElement("afterend", span);
-}
-
-function hapusError(input) {
-    const next = input.nextElementSibling;
-    if (next && next.classList.contains("error")) {
-        next.remove();
-    }
-}
-
-// ===== 5. Validasi Form Utama =====
-function initValidasiForm() {
-    const form = document.getElementById("form-tambah");
-    if (!form) return;
-
-    form.addEventListener("submit", function (e) {
-        let valid = true;
-
-        // Validasi Judul / Nama (Adaptif untuk form buku/anggota)
-        const judul = form.querySelector("[name='judul'], [name='nama']");
-        if (judul && judul.value.trim() === "") {
-            tampilkanError(judul, "Field ini wajib diisi.");
-            valid = false;
-        } else if (judul) {
-            hapusError(judul);
-        }
-
-        // Validasi Pengarang
-        const pengarang = form.querySelector("[name='pengarang']");
-        if (pengarang && pengarang.value.trim() === "") {
-            tampilkanError(pengarang, "Field ini wajib diisi.");
-            valid = false;
-        } else if (pengarang) {
-            hapusError(pengarang);
-        }
-
-        // Validasi Tahun
-        const tahun = form.querySelector("[name='tahun']");
-        if (tahun) {
-            const nilai = parseInt(tahun.value, 10);
-            if (isNaN(nilai) || nilai < 1900 || nilai > 2026) {
-                tampilkanError(tahun, "Tahun harus di antara 1900-2026.");
-                valid = false;
-            } else {
-                hapusError(tahun);
-            }
-        }
-
-        // Validasi Stok
-        const stok = form.querySelector("[name='stok']");
-        if (stok) {
-            const nilai = parseInt(stok.value, 10);
-            if (isNaN(nilai) || nilai < 0) {
-                tampilkanError(stok, "Stok tidak boleh negatif.");
-                valid = false;
-            } else {
-                hapusError(stok);
-            }
-        }
-
-        // Batalkan submit jika ada field yang invalid
-        if (!valid) {
+        // Jika pengguna menekan Cancel/Batal, cegah pengiriman form ke server
+        if (!yakin) {
             e.preventDefault();
         }
     });
 }
 
-// Inisialisasi Seluruh Fungsi saat DOM siap
-document.addEventListener("DOMContentLoaded", function () {
-    initNavToggle();
-    initHapusConfirm();
-    initTableFilter();
-    initValidasiForm();
-});
+/**
+ * Toggle Navigasi Responsif
+ */
+function initNavToggle() {
+    const toggleBtn = document.getElementById("nav-toggle-btn");
+    const navMenu = document.querySelector("header nav");
+
+    if (toggleBtn && navMenu) {
+        toggleBtn.addEventListener("click", function () {
+            navMenu.classList.toggle("active");
+        });
+    }
+}

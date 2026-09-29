@@ -1,8 +1,12 @@
 <?php
-session_start();
+$page_title = "Edit Mobil";
+include __DIR__ . '/../includes/header.php';
 require __DIR__ . '/../includes/koneksi.php';
 
-$id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
+$flash = $_SESSION['flash'] ?? null;
+unset($_SESSION['flash']);
+
+$id = $_GET['id'] ?? null;
 if (!$id) {
     header('Location: list.php');
     exit;
@@ -16,43 +20,40 @@ if (!$mobil) {
     header('Location: list.php');
     exit;
 }
-
-$flash = $_SESSION['flash'] ?? null;
-unset($_SESSION['flash']);
-
-$page_title = "Edit Mobil";
-require __DIR__ . '/../includes/header.php';
 ?>
 
-<section class="form-container">
+<section class="container my-4">
     <h2>Edit Data Mobil</h2>
 
     <?php if ($flash): ?>
-        <p class="flash flash-<?php echo $flash['type']; ?>"><?php echo htmlspecialchars($flash['pesan']); ?></p>
+        <div class="alert alert-<?php echo htmlspecialchars($flash['type']); ?>">
+            <?php echo htmlspecialchars($flash['message']); ?>
+        </div>
     <?php endif; ?>
 
-    <form id="form-tambah" method="post" action="proses_edit.php" novalidate>
-        <input type="hidden" name="id" value="<?php echo $mobil['id']; ?>">
+    <form id="form-edit" method="post" action="proses_edit.php">
+        <input type="hidden" name="id" value="<?php echo htmlspecialchars($mobil['id']); ?>">
+
         <p>
-            <label for="no_mobil">Nomor Polisi / Plat:</label>
-            <input type="text" id="no_mobil" name="no_mobil" required
-                   value="<?php echo htmlspecialchars($mobil['no_mobil']); ?>">
+            <label for="no_mobil">Nomor Plat (No. Mobil)</label><br>
+            <input type="text" id="no_mobil" name="no_mobil" value="<?php echo htmlspecialchars($mobil['no_mobil']); ?>" required>
         </p>
+
         <p>
-            <label for="merek">Merek:</label>
-            <input type="text" id="merek" name="merek" required
-                   value="<?php echo htmlspecialchars($mobil['merek']); ?>">
+            <label for="merek">Merek Mobil</label><br>
+            <input type="text" id="merek" name="merek" value="<?php echo htmlspecialchars($mobil['merek']); ?>" required>
         </p>
+
         <p>
-            <label for="tipe">Tipe:</label>
-            <input type="text" id="tipe" name="tipe" required
-                   value="<?php echo htmlspecialchars($mobil['tipe']); ?>">
+            <label for="tipe">Tipe Mobil</label><br>
+            <input type="text" id="tipe" name="tipe" value="<?php echo htmlspecialchars($mobil['tipe']); ?>" required>
         </p>
+
         <p>
-            <label for="tahun">Tahun:</label>
-            <input type="number" id="tahun" name="tahun" min="2010" max="2026" required
-                   value="<?php echo (int)$mobil['tahun']; ?>">
+            <label for="tahun">Tahun Pembuatan</label><br>
+            <input type="number" id="tahun" name="tahun" value="<?php echo htmlspecialchars($mobil['tahun']); ?>" required>
         </p>
+
         <p>
             <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
             <a href="list.php" class="btn btn-secondary">Batal</a>
@@ -60,4 +61,4 @@ require __DIR__ . '/../includes/header.php';
     </form>
 </section>
 
-<?php require __DIR__ . '/../includes/footer.php'; ?>
+<?php include __DIR__ . '/../includes/footer.php'; ?>
