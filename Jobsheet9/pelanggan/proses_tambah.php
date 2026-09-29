@@ -3,14 +3,14 @@ session_start();
 require __DIR__ . '/../includes/koneksi.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $nama = trim($_POST['nama'] ?? '');
-    $alamat = trim($_POST['alamat'] ?? '');
-    $no_telepon = trim($_POST['no_telepon'] ?? '');
+    $nama       = trim($_POST['nama'] ?? '');
+    $alamat     = trim($_POST['alamat'] ?? '');
+    $no_telepon = trim($_POST['no_hp'] ?? $_POST['no_telepon'] ?? '');
 
     if (empty($nama) || empty($alamat) || empty($no_telepon)) {
         $_SESSION['flash'] = [
             'type' => 'danger',
-            'pesan' => 'Semua kolom wajib diisi!'
+            'message' => 'Semua kolom wajib diisi!'
         ];
         header('Location: tambah.php');
         exit;
@@ -30,14 +30,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $_SESSION['flash'] = [
             'type' => 'success',
-            'pesan' => 'Data pelanggan berhasil ditambahkan!'
+            'message' => 'Data pelanggan berhasil ditambahkan!'
         ];
+        
         header('Location: list.php');
         exit;
+
     } catch (PDOException $e) {
         $_SESSION['flash'] = [
             'type' => 'danger',
-            'pesan' => 'Gagal menyimpan data: ' . $e->getMessage()
+            'message' => 'Gagal menyimpan data: ' . $e->getMessage()
         ];
         header('Location: tambah.php');
         exit;

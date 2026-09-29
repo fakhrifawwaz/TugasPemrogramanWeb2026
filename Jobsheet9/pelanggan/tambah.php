@@ -6,12 +6,16 @@ $flash = $_SESSION['flash'] ?? null;
 unset($_SESSION['flash']);
 ?>
 
-<section>
+<section class="container my-4">
     <h2>Tambah Data Pelanggan</h2>
 
-    <?php if ($flash): ?>
-        <div class="alert alert-<?php echo htmlspecialchars($flash['type']); ?>">
-            <?php echo htmlspecialchars($flash['message']); ?>
+    <?php if (!empty($flash)): ?>
+        <?php 
+            $type = is_array($flash) ? ($flash['type'] ?? 'danger') : 'danger';
+            $message = is_array($flash) ? ($flash['message'] ?? $flash['pesan'] ?? '') : $flash;
+        ?>
+        <div class="alert alert-<?php echo htmlspecialchars($type); ?>">
+            <?php echo htmlspecialchars($message); ?>
         </div>
     <?php endif; ?>
 

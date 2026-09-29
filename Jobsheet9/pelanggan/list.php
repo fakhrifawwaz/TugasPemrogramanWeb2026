@@ -12,11 +12,26 @@ $offset = ($page - 1) * $perPage;
 $keyword = trim($_GET['q'] ?? '');
 
 if ($keyword !== '') {
-    $hitung = $pdo->prepare("SELECT COUNT(*) FROM pelanggan WHERE nama ILIKE :kw OR alamat ILIKE :kw OR no_hp ILIKE :kw");
+    // Pencarian berdasarkan nama, alamat, atau no_telepon (dengan operator OR)
+    $hitung = $pdo->prepare("
+        SELECT COUNT(*) 
+        FROM pelanggan 
+        WHERE nama ILIKE :kw 
+           OR alamat ILIKE :kw 
+           OR no_telepon ILIKE :kw
+    ");
     $hitung->execute(['kw' => '%' . $keyword . '%']);
     $totalRows = $hitung->fetchColumn();
 
-    $stmt = $pdo->prepare("SELECT * FROM pelanggan WHERE nama ILIKE :kw OR alamat ILIKE :kw OR no_hp ILIKE :kw ORDER BY id DESC LIMIT :limit OFFSET :offset");
+    $stmt = $pdo->prepare("
+        SELECT * 
+        FROM pelanggan 
+        WHERE nama ILIKE :kw 
+           OR alamat ILIKE :kw 
+           OR no_telepon ILIKE :kw
+        ORDER BY id DESC 
+        LIMIT :limit OFFSET :offset
+    ");
     $stmt->bindValue('kw', '%' . $keyword . '%');
 } else {
     $totalRows = $pdo->query("SELECT COUNT(*) FROM pelanggan")->fetchColumn();
@@ -31,18 +46,22 @@ $daftarPelanggan = $stmt->fetchAll(PDO::FETCH_ASSOC);
 $totalPages = max(1, (int) ceil($totalRows / $perPage));
 ?>
 
-<section>
+<section class="container my-4">
     <h2>Daftar Pelanggan</h2>
 
-    <?php if ($flash): ?>
-        <div class="alert alert-<?php echo htmlspecialchars($flash['type']); ?>">
-            <?php echo htmlspecialchars($flash['message']); ?>
+    <?php if (!empty($flash)): ?>
+        <?php 
+            $type = is_array($flash) ? ($flash['type'] ?? 'success') : 'success';
+            $message = is_array($flash) ? ($flash['message'] ?? $flash['pesan'] ?? '') : $flash;
+        ?>
+        <div class="alert alert-<?php echo htmlspecialchars($type); ?>">
+            <?php echo htmlspecialchars($message); ?>
         </div>
     <?php endif; ?>
 
     <div class="search-container">
         <form method="get" action="list.php">
-            <label for="q">Cari Pelanggan</label>
+            <label for="q">Cari Pelanggan:</label>
             <input type="text" id="q" name="q" value="<?php echo htmlspecialchars($keyword); ?>" placeholder="Cari nama, alamat, atau HP...">
             <button type="submit">Cari</button>
             <?php if ($keyword !== ''): ?>
@@ -51,41 +70,44 @@ $totalPages = max(1, (int) ceil($totalRows / $perPage));
         </form>
     </div>
 
-    <table>
-        <thead>
-            <tr>
-                <th>No</th>
-                <th>Nama Lengkap</th>
-                <th>Alamat</th>
-                <th>No. HP</th>
-                <th>Aksi</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php if (empty($daftarPelanggan)): ?>
+    <div class="table-responsive">
+        <table class="table table-bordered">
+            <thead>
                 <tr>
-                    <td colspan="5" style="text-align: center;">Data pelanggan tidak ditemukan.</td>
+                    <th>No</th>
+                    <th>Nama Lengkap</th>
+                    <th>Alamat</th>
+                    <th>No. HP</th>
+                    <th>Aksi</th>
                 </tr>
-            <?php else: ?>
-                <?php foreach ($daftarPelanggan as $index => $pelanggan): ?>
+            </thead>
+            <tbody>
+                <?php if (empty($daftarPelanggan)): ?>
                     <tr>
-                        <td><?php echo $offset + $index + 1; ?></td>
-                        <td><?php echo htmlspecialchars($pelanggan['nama']); ?></td>
-                        <td><?php echo htmlspecialchars($pelanggan['alamat']); ?></td>
-                        <td><?php echo htmlspecialchars($pelanggan['no_hp']); ?></td>
-                        <td>
-                            <a href="edit.php?id=<?php echo $pelanggan['id']; ?>" class="btn-edit">Edit</a>
-                            
-                            <form class="form-hapus" method="post" action="hapus.php">
-                                <input type="hidden" name="id" value="<?php echo $pelanggan['id']; ?>">
-                                <button type="submit" class="btn-hapus">Hapus</button>
-                            </form>
-                        </td>
+                        <td colspan="5" style="text-align: center;">Data pelanggan tidak ditemukan.</td>
                     </tr>
-                <?php endforeach; ?>
-            <?php endif; ?>
-        </tbody>
-    </table>
+                <?php else: ?>
+                    <?php foreach ($daftarPelanggan as $index => $pelanggan): ?>
+                        <tr>
+                            <td><?php echo $offset + $index + 1; ?></td>
+                            <td><?php echo htmlspecialchars($pelanggan['nama'] ?? ''); ?></td>
+                            <td><?php echo htmlspecialchars($pelanggan['alamat'] ?? ''); ?></td>
+                            <!-- Menggunakan no_telepon sesuai kolom DB pgAdmin -->
+                            <td><?php echo htmlspecialchars($pelanggan['no_telepon'] ?? $pelanggan['no_hp'] ?? ''); ?></td>
+                            <td>
+                                <a href="edit.php?id=<?php echo $pelanggan['id']; ?>" class="btn btn-warning btn-sm btn-edit">Edit</a>
+                                
+                                <form class="form-hapus" method="post" action="hapus.php" style="display:inline;">
+                                    <input type="hidden" name="id" value="<?php echo $pelanggan['id']; ?>">
+                                    <button type="submit" class="btn btn-danger btn-sm">Hapus</button>
+                                </form>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+            </tbody>
+        </table>
+    </div>
 
     <?php if ($totalPages > 1): ?>
         <nav class="pagination">

@@ -12,7 +12,6 @@ $offset = ($page - 1) * $perPage;
 $keyword = trim($_GET['q'] ?? '');
 
 if ($keyword !== '') {
-    // Sesuaikan nama kolom: no_mobil, merek, tipe, tahun
     $hitung = $pdo->prepare("
         SELECT COUNT(*) 
         FROM mobil 
@@ -51,9 +50,13 @@ $totalPages = max(1, (int) ceil($totalRows / $perPage));
 <section class="container my-4">
     <h2>Daftar Mobil</h2>
 
-    <?php if ($flash): ?>
-        <div class="alert alert-<?php echo htmlspecialchars($flash['type']); ?>">
-            <?php echo htmlspecialchars($flash['message']); ?>
+    <?php if (!empty($flash)): ?>
+        <?php 
+            $type = is_array($flash) ? ($flash['type'] ?? 'success') : 'success';
+            $message = is_array($flash) ? ($flash['message'] ?? $flash['pesan'] ?? '') : $flash;
+        ?>
+        <div class="alert alert-<?php echo htmlspecialchars($type); ?>">
+            <?php echo htmlspecialchars($message); ?>
         </div>
     <?php endif; ?>
 
