@@ -3,20 +3,18 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// Guard Clause: Jika sudah login, redirect ke index utama SIRENMO
 if (isset($_SESSION['user_id'])) {
     header('Location: ../index.php');
     exit;
 }
 
-$page_title = "Registrasi - SIRENMO";
+$page_title = "Registrasi Petugas SIRENMO";
 include __DIR__ . '/../includes/header.php';
 ?>
 
 <div class="container mt-4">
-    <h2>Registrasi Akun SIRENMO</h2>
+    <h2>Registrasi Petugas SIRENMO</h2>
 
-    <!-- Tampilkan Flash Message Error jika ada -->
     <?php if (isset($_SESSION['flash'])): ?>
         <div class="alert alert-<?= $_SESSION['flash']['type'] === 'error' ? 'danger' : 'success'; ?>">
             <?= $_SESSION['flash']['pesan']; ?>

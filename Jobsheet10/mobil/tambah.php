@@ -1,9 +1,10 @@
 <?php
-<?php
 require __DIR__ . '/../includes/auth.php';
-$page_title = "Tambah Mobil";
+$page_title = "Tambah Mobil - SIRENMO";
 include __DIR__ . '/../includes/header.php';
+?>
 
+<!-- Konten Form SIRENMO di bawah ini -->
 
 // Ambil pesan flash jika ada
 $flash = $_SESSION['flash'] ?? null;
@@ -14,9 +15,12 @@ unset($_SESSION['flash']);
     <h2>Tambah Data Mobil</h2>
     
     <!-- Tampilkan pesan error jika ada -->
-    <?php if ($flash): ?>
-        <p class="flash flash-<?php echo $flash['type']; ?>"><?php echo $flash['pesan']; ?></p>
-    <?php endif; ?>
+        <?php if (isset($_SESSION['flash'])): ?>
+            <p class="flash flash-<?php echo $_SESSION['flash']['type']; ?>">
+                <?php echo $_SESSION['flash']['pesan']; ?>
+            </p>
+            <?php unset($_SESSION['flash']); ?>
+        <?php endif; ?>
 
     <!-- Tambahkan 'novalidate' jika ingin mematikan validasi HTML5 untuk testing -->
     <form id="form-tambah" method="post" action="proses_tambah.php" novalidate> 

@@ -3,20 +3,18 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// Redirect ke halaman utama jika pengguna sudah login
 if (isset($_SESSION['user_id'])) {
     header('Location: ../index.php');
     exit;
 }
 
-$page_title = "Login - SIRENMO";
+$page_title = "Login SIRENMO";
 include __DIR__ . '/../includes/header.php';
 ?>
 
 <div class="container mt-4">
     <h2>Login SIRENMO</h2>
 
-    <!-- Alert Flash Message -->
     <?php if (isset($_SESSION['flash'])): ?>
         <div class="alert alert-<?= $_SESSION['flash']['type'] === 'error' ? 'danger' : 'success'; ?>">
             <?= $_SESSION['flash']['pesan']; ?>

@@ -2,6 +2,7 @@
 $page_title = "Daftar Pelanggan";
 include __DIR__ . '/../includes/header.php';
 require __DIR__ . '/../includes/koneksi.php';
+require __DIR__ . '/../includes/auth.php'; 
 
 $flash = $_SESSION['flash'] ?? null;
 unset($_SESSION['flash']);

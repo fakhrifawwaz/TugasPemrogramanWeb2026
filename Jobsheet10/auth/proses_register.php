@@ -3,14 +3,13 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-require __DIR__ . '/../koneksi.php'; // Hubungkan ke koneksi PDO SIRENMO
+require __DIR__ . '/../koneksi.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nama = trim($_POST['nama'] ?? '');
     $username = trim($_POST['username'] ?? '');
     $password = $_POST['password'] ?? '';
 
-    // 1. Validasi Server-side
     $errors = [];
     if ($nama === '') {
         $errors[] = "Nama wajib diisi.";
@@ -28,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 
-    // 2. Cek Username Unik di Database
+    // Cek username unik
     $cek = $pdo->prepare("SELECT id FROM users WHERE username = :username");
     $cek->execute(['username' => $username]);
     if ($cek->fetch()) {
@@ -37,7 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 
-    // 3. Simpan Data dengan Hashing Password & Default Role 'petugas'
+    // Simpan data user dengan hashing
     $stmt = $pdo->prepare(
         "INSERT INTO users (nama, username, password, role) VALUES (:nama, :username, :password, 'petugas')"
     );
@@ -49,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     ]);
 
     if ($simpan) {
-        $_SESSION['flash'] = ['type' => 'success', 'pesan' => 'Registrasi akun SIRENMO berhasil! Silakan login.'];
+        $_SESSION['flash'] = ['type' => 'success', 'pesan' => 'Registrasi berhasil! Silakan login.'];
         header('Location: login.php');
         exit;
     } else {
