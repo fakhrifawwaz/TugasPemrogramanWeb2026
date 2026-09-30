@@ -6,9 +6,11 @@ if (session_status() === PHP_SESSION_NONE) {
 $sudahLogin = isset($_SESSION['user_id']);
 
 if (!isset($base)) {
-    $depth = substr_count($_SERVER['SCRIPT_NAME'], '/') - substr_count(dirname($_SERVER['SCRIPT_NAME']), '/');
-    $base = str_repeat('../', max(0, $depth - 1));
+    $scriptDir = trim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
+    $base = ($scriptDir !== '') ? '../' : '';
 }
+
+$currentPage = basename($_SERVER['PHP_SELF']);
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -16,32 +18,35 @@ if (!isset($base)) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo isset($page_title) ? $page_title : 'SIRENMO'; ?></title>
-    <link rel="stylesheet" href="<?php echo $base; ?>css/style.css">
+    <link rel="stylesheet" href="<?php echo $base; ?>assets/css/style.css">
 </head>
 <body>
     <header>
-        <h1>SIRENMO</h1>
-        <button type="button" id="nav-toggle-btn" class="nav-toggle-label" aria-label="Menu">&#9776;</button>
         <nav>
             <ul>
-                <!-- Menu Publik -->
-                <li><a href="<?php echo $base; ?>index.php">Beranda</a></li>
-                <li><a href="<?php echo $base; ?>mobil/list.php">Daftar Mobil</a></li>
+                <li><a href="<?php echo $base; ?>index.php" class="<?php echo ($currentPage == 'index.php') ? 'active' : ''; ?>">Beranda</a></li>
+                <li><a href="<?php echo $base; ?>mobil/list.php" class="<?php echo ($currentPage == 'list.php' && strpos($_SERVER['PHP_SELF'], 'mobil') !== false) ? 'active' : ''; ?>">Daftar Mobil</a></li>
 
-                <!-- Menu Khusus Petugas (Terproteksi) -->
                 <?php if ($sudahLogin): ?>
-                    <li><a href="<?php echo $base; ?>mobil/tambah.php">Tambah Mobil</a></li>
-                    <li><a href="<?php echo $base; ?>pelanggan/list.php">Daftar Pelanggan</a></li>
-                    <li><a href="<?php echo $base; ?>pelanggan/tambah.php">Tambah Pelanggan</a></li>
+                    <li><a href="<?php echo $base; ?>mobil/tambah.php" class="<?php echo ($currentPage == 'tambah.php' && strpos($_SERVER['PHP_SELF'], 'mobil') !== false) ? 'active' : ''; ?>">Tambah Mobil</a></li>
+                    <li><a href="<?php echo $base; ?>pelanggan/list.php" class="<?php echo ($currentPage == 'list.php' && strpos($_SERVER['PHP_SELF'], 'pelanggan') !== false) ? 'active' : ''; ?>">Daftar Pelanggan</a></li>
+                    <li><a href="<?php echo $base; ?>pelanggan/tambah.php" class="<?php echo ($currentPage == 'tambah.php' && strpos($_SERVER['PHP_SELF'], 'pelanggan') !== false) ? 'active' : ''; ?>">Tambah Pelanggan</a></li>
                 <?php endif; ?>
             </ul>
         </nav>
-        <div class="auth-status">
+
+        <div class="brand">
+            <h1>FAKHRI RENT CAR</h1>
+            <p>SIRENMO — Sistem Informasi Rental Mobil</p>
             <?php if ($sudahLogin): ?>
-                <span>Halo, <strong><?php echo htmlspecialchars($_SESSION['nama']); ?></strong></span>
-                <a href="<?php echo $base; ?>auth/logout.php">Logout</a>
+                <div style="font-size: 0.8rem; margin-top: 4px;">
+                    <span>Halo, <strong><?php echo htmlspecialchars($_SESSION['nama'] ?? 'User'); ?></strong></span> | 
+                    <a href="<?php echo $base; ?>auth/logout.php" style="color: #ffc107; text-decoration: none;">Logout</a>
+                </div>
             <?php else: ?>
-                <a href="<?php echo $base; ?>auth/login.php">Login</a>
+                <div style="font-size: 0.8rem; margin-top: 4px;">
+                    <a href="<?php echo $base; ?>auth/login.php" style="color: #ffffff; text-decoration: none;">Login Petugas</a>
+                </div>
             <?php endif; ?>
         </div>
     </header>

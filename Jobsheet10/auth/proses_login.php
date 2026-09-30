@@ -3,7 +3,8 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-require __DIR__ . '/../koneksi.php';
+// Menghubungkan ke koneksi.php di dalam folder includes
+require __DIR__ . '/../includes/koneksi.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = trim($_POST['username'] ?? '');
@@ -18,6 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['nama']    = $user['nama'];
         $_SESSION['role']    = $user['role'];
 
+        // Redirect keluar dari folder auth ke index.php utama
         header('Location: ../index.php');
         exit;
     }
@@ -26,6 +28,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     header('Location: login.php');
     exit;
 } else {
-    header('Location: ../index.php');
+    header('Location: login.php');
     exit;
 }

@@ -2,8 +2,8 @@
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
-
-require __DIR__ . '/../koneksi.php';
+// Ganti baris require koneksi menjadi:
+require __DIR__ . '/../includes/koneksi.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nama = trim($_POST['nama'] ?? '');
