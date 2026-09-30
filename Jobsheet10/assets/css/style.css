@@ -260,3 +260,44 @@ footer {
         max-width: 100%;
     }
 }
+
+/* Layout Grid Ringkasan */
+.summary-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.summary-card {
+    background-color: #ffffff;
+    border-left: 4px solid #0a3861;
+    border-radius: 4px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.summary-title {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    color: #333333;
+    margin-bottom: 10px;
+}
+
+.summary-value {
+    display: block;
+    font-size: 32px;
+    font-weight: bold;
+    color: #0a3861;
+}
+
+.text-success {
+    color: #2e7d32 !important;
+}
+
+/* Responsif untuk layar HP */
+@media (max-width: 768px) {
+    .summary-grid {
+        grid-template-columns: 1fr;
+    }
+}
