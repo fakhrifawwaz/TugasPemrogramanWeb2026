@@ -1,0 +1,2 @@
+[providers]
+php = { extensions = ['pdo', 'pdo_pgsql', 'pgsql'] }
