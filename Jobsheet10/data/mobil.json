@@ -1,0 +1,21 @@
+[
+    {
+        "no_mobil": "N 003 SIB",
+        "merek": "Honda",
+        "tipe": "HR-V",
+        "tahun": 2022
+    },
+    {
+        "no_mobil": "N 004 SIB",
+        "merek": "Honda",
+        "tipe": "Jazz",
+        "tahun": 2019
+    },
+    {
+        "no_mobil": "N 005 SIB",
+        "merek": "Suzuki",
+        "tipe": "Ertiga",
+        "tahun": 2020
+    }
+
+]

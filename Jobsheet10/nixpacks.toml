@@ -1,0 +1,5 @@
+[phases.setup]
+nixPkgs = ['...', 'php82Extensions.pdo_pgsql', 'php82Extensions.pgsql', 'php82Extensions.pdo']
+
+[providers]
+php = { extensions = ['pdo', 'pdo_pgsql', 'pgsql'] }
