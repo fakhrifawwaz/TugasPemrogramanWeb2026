@@ -3,31 +3,60 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// Menghubungkan ke koneksi.php di dalam folder includes
 require __DIR__ . '/../includes/koneksi.php';
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $username = trim($_POST['username'] ?? '');
-    $password = $_POST['password'] ?? '';
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    header('Location: login.php');
+    exit;
+}
 
-    $stmt = $pdo->prepare("SELECT * FROM users WHERE username = :username");
+$username = trim($_POST['username'] ?? '');
+$password = trim($_POST['password'] ?? '');
+
+if (empty($username) || empty($password)) {
+    $_SESSION['flash'] = ['type' => 'danger', 'pesan' => 'Username dan password wajib diisi!'];
+    header('Location: login.php');
+    exit;
+}
+
+try {
+    // Query data user berdasarkan username
+    $stmt = $pdo->prepare("SELECT * FROM users WHERE username = :username LIMIT 1");
     $stmt->execute(['username' => $username]);
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    if ($user && password_verify($password, $user['password'])) {
-        $_SESSION['user_id'] = $user['id'];
-        $_SESSION['nama']    = $user['nama'];
-        $_SESSION['role']    = $user['role'];
+    if ($user) {
+        $isPasswordValid = false;
 
-        // Redirect keluar dari folder auth ke index.php utama
-        header('Location: ../index.php');
-        exit;
+        // Cek apakah password dicocokkan dengan password_verify atau plain-text
+        if (password_verify($password, $user['password'])) {
+            $isPasswordValid = true;
+        } elseif ($password === $user['password']) {
+            $isPasswordValid = true;
+        }
+
+        if ($isPasswordValid) {
+            $_SESSION['user_id'] = $user['id'];
+            $_SESSION['nama'] = $user['nama'] ?? $user['username'];
+            $_SESSION['username'] = $user['username'];
+
+            header('Location: ../index.php');
+            exit;
+        }
     }
 
-    $_SESSION['flash'] = ['type' => 'error', 'pesan' => 'Username atau password salah.'];
+    // Jika username atau password tidak cocok
+    $_SESSION['flash'] = ['type' => 'danger', 'pesan' => 'Username atau password salah!'];
     header('Location: login.php');
     exit;
-} else {
+
+} catch (PDOException $e) {
+    // Tangkap error jika tabel 'users' belum ada di PostgreSQL Railway
+    error_log("Login Error: " . $e->getMessage());
+    $_SESSION['flash'] = [
+        'type' => 'danger', 
+        'pesan' => 'Gagal terhubung ke data user. Pastikan tabel "users" sudah dibuat di Database Railway.'
+    ];
     header('Location: login.php');
     exit;
 }

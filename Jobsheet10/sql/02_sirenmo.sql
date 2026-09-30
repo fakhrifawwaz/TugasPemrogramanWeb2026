@@ -1,10 +1,11 @@
--- Jobsheet 10: Tabel users untuk SIRENMO
--- Jalankan query ini di database SIRENMO
-
 CREATE TABLE IF NOT EXISTS users (
     id SERIAL PRIMARY KEY,
-    nama VARCHAR(255) NOT NULL,
-    username VARCHAR(50) NOT NULL UNIQUE,
+    username VARCHAR(50) UNIQUE NOT NULL,
     password VARCHAR(255) NOT NULL,
-    role VARCHAR(20) NOT NULL DEFAULT 'petugas'
+    nama VARCHAR(100) NOT NULL
 );
+
+-- Tambahkan user bawaan untuk login (Username: admin, Password: admin123)
+INSERT INTO users (username, password, nama) 
+VALUES ('admin', 'admin123', 'Fakhri')
+ON CONFLICT (username) DO NOTHING;
