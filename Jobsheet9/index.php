@@ -1,7 +1,10 @@
 <?php
-// ... kode lainnya ...
 session_start();
 require __DIR__ . '/includes/koneksi.php';
+
+if (!isset($pdo)) {
+    die("Error: Objek koneksi \$pdo tidak ditemukan. Pastikan koneksi.php berjalan dengan benar.");
+}
 
 // Hitung total dari database PostgreSQL
 $totalMobil = $pdo->query("SELECT COUNT(*) FROM mobil")->fetchColumn();
