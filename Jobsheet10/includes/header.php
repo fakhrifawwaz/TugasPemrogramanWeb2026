@@ -18,7 +18,7 @@ $currentPage = basename($_SERVER['PHP_SELF']);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo isset($page_title) ? $page_title : 'SIRENMO'; ?></title>
-    <link rel="stylesheet" href="<?php echo $base; ?>assets/css/style.css">
+    <link rel="stylesheet" href="<?php echo $base; ?>assets/css/style.css?v=<?php echo time(); ?>">
 </head>
 <body>
     <header>
