@@ -49,7 +49,7 @@ unset($_SESSION['flash']);
 
             <div style="margin-top: 24px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
                 <button type="submit" class="btn btn-simpan">Masuk</button>
-                <a href="registrasi.php" class="btn btn-edit" style="background-color: transparent; color: var(--primary-blue); border: 1px solid var(--primary-blue);">Belum punya akun? Registrasi</a>
+                <a href="register.php" class="btn btn-edit" style="background-color: transparent; color: var(--primary-blue); border: 1px solid var(--primary-blue);">Belum punya akun? Registrasi</a>
             </div>
         </form>
     </div>
