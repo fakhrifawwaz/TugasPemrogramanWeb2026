@@ -1,7 +1,7 @@
 <?php
 session_start();
 require __DIR__ . '/../includes/koneksi.php';
-require __DIR__ . '/../includes/auth.php'; ?>
+require __DIR__ . '/../includes/auth.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $no_mobil = trim($_POST['no_mobil'] ?? '');
@@ -41,7 +41,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
 
     } catch (PDOException $e) {
-        // Kode '23505' adalah SQLSTATE PostgreSQL khusus untuk pelanggaran UNIQUE constraint
         if ($e->getCode() === '23505') {
             $pesanError = "Nomor plat '{$no_mobil}' sudah terdaftar! Gunakan nomor plat lain.";
         } else {
@@ -53,12 +52,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'pesan' => $pesanError
         ];
         
-        // Kembalikan pengguna ke form tambah
         header('Location: tambah.php');
         exit;
     }
 }
 
-// Akses selain POST dikembalikan ke daftar
 header('Location: list.php');
 exit;
