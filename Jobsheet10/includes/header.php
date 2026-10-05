@@ -32,10 +32,10 @@ $currentPage = basename($_SERVER['PHP_SELF']);
             <ul>
                 <li><a href="<?php echo $base; ?>index.php" class="<?php echo ($currentPage == 'index.php') ? 'active' : ''; ?>">Beranda</a></li>
                 <li><a href="<?php echo $base; ?>mobil/list.php" class="<?php echo ($currentPage == 'list.php' && strpos($_SERVER['PHP_SELF'], 'mobil') !== false) ? 'active' : ''; ?>">Daftar Mobil</a></li>
+                <li><a href="<?php echo $base; ?>pelanggan/list.php" class="<?php echo ($currentPage == 'list.php' && strpos($_SERVER['PHP_SELF'], 'pelanggan') !== false) ? 'active' : ''; ?>">Daftar Pelanggan</a></li>
 
                 <?php if ($sudahLogin): ?>
                     <li><a href="<?php echo $base; ?>mobil/tambah.php" class="<?php echo ($currentPage == 'tambah.php' && strpos($_SERVER['PHP_SELF'], 'mobil') !== false) ? 'active' : ''; ?>">Tambah Mobil</a></li>
-                    <li><a href="<?php echo $base; ?>pelanggan/list.php" class="<?php echo ($currentPage == 'list.php' && strpos($_SERVER['PHP_SELF'], 'pelanggan') !== false) ? 'active' : ''; ?>">Daftar Pelanggan</a></li>
                     <li><a href="<?php echo $base; ?>pelanggan/tambah.php" class="<?php echo ($currentPage == 'tambah.php' && strpos($_SERVER['PHP_SELF'], 'pelanggan') !== false) ? 'active' : ''; ?>">Tambah Pelanggan</a></li>
                 <?php endif; ?>
             </ul>

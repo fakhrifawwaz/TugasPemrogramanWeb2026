@@ -1,11 +1,20 @@
 <?php
-$page_title = "Daftar Mobil";
-include __DIR__ . '/../includes/header.php';
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
 require __DIR__ . '/../includes/koneksi.php';
+
+// Cek status login petugas
+$is_logged_in = isset($_SESSION['user_id']);
+
+$page_title = "Daftar Mobil";
+$base = "../";
 
 $flash = $_SESSION['flash'] ?? null;
 unset($_SESSION['flash']);
 
+// Paginasi & Pencarian
 $perPage = 10;
 $page = max(1, (int) ($_GET['page'] ?? 1));
 $offset = ($page - 1) * $perPage;
@@ -45,18 +54,28 @@ $stmt->execute();
 
 $daftarMobil = $stmt->fetchAll(PDO::FETCH_ASSOC);
 $totalPages = max(1, (int) ceil($totalRows / $perPage));
+
+include __DIR__ . '/../includes/header.php';
 ?>
 
-<main>
+<main class="container">
     <div class="card">
-        <h2>Daftar Mobil</h2>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+            <h2>Daftar Mobil</h2>
+
+            <?php if ($is_logged_in): ?>
+                <a href="tambah.php" class="btn btn-simpan">+ Tambah Mobil</a>
+            <?php endif; ?>
+        </div>
 
         <?php if (!empty($flash)): ?>
             <?php 
                 $type = is_array($flash) ? ($flash['type'] ?? 'success') : 'success';
                 $message = is_array($flash) ? ($flash['message'] ?? $flash['pesan'] ?? '') : $flash;
+                $bgColor = ($type === 'danger' || $type === 'error') ? '#f8d7da' : '#d4edda';
+                $textColor = ($type === 'danger' || $type === 'error') ? '#721c24' : '#155724';
             ?>
-            <div style="padding: 10px; margin-bottom: 15px; background-color: #d4edda; color: #155724; border-radius: 4px;">
+            <div style="padding: 10px; margin-bottom: 15px; background-color: <?php echo $bgColor; ?>; color: <?php echo $textColor; ?>; border-radius: 4px;">
                 <?php echo htmlspecialchars($message); ?>
             </div>
         <?php endif; ?>
@@ -72,7 +91,7 @@ $totalPages = max(1, (int) ceil($totalRows / $perPage));
         </div>
 
         <div class="table-container">
-            <table>
+            <table class="data-table" style="width:100%; border-collapse: collapse;">
                 <thead>
                     <tr>
                         <th>No</th>
@@ -80,13 +99,15 @@ $totalPages = max(1, (int) ceil($totalRows / $perPage));
                         <th>Merek</th>
                         <th>Tipe</th>
                         <th>Tahun</th>
-                        <th>Aksi</th>
+                        <?php if ($is_logged_in): ?>
+                            <th>Aksi</th>
+                        <?php endif; ?>
                     </tr>
                 </thead>
                 <tbody>
                     <?php if (empty($daftarMobil)): ?>
                         <tr>
-                            <td colspan="6" style="text-align: center;">Data mobil tidak ditemukan.</td>
+                            <td colspan="<?php echo $is_logged_in ? 6 : 5; ?>" style="text-align: center;">Data mobil tidak ditemukan.</td>
                         </tr>
                     <?php else: ?>
                         <?php foreach ($daftarMobil as $index => $mobil): ?>
@@ -96,16 +117,19 @@ $totalPages = max(1, (int) ceil($totalRows / $perPage));
                                 <td><?php echo htmlspecialchars($mobil['merek'] ?? ''); ?></td>
                                 <td><?php echo htmlspecialchars($mobil['tipe'] ?? ''); ?></td>
                                 <td><?php echo htmlspecialchars($mobil['tahun'] ?? ''); ?></td>
-                                <td>
-                                    <div class="action-btns">
-                                        <a href="edit.php?id=<?php echo $mobil['id']; ?>" class="btn btn-edit">Edit</a>
-                                        
-                                        <form method="post" action="hapus.php" style="display:inline;" onsubmit="return confirm('Yakin menghapus data ini?');">
-                                            <input type="hidden" name="id" value="<?php echo $mobil['id']; ?>">
-                                            <button type="submit" class="btn btn-hapus">Hapus</button>
-                                        </form>
-                                    </div>
-                                </td>
+                                
+                                <?php if ($is_logged_in): ?>
+                                    <td>
+                                        <div class="action-btns">
+                                            <a href="edit.php?id=<?php echo $mobil['id']; ?>" class="btn btn-edit">Edit</a>
+                                            
+                                            <form method="post" action="hapus.php" style="display:inline;" onsubmit="return confirm('Yakin menghapus data ini?');">
+                                                <input type="hidden" name="id" value="<?php echo $mobil['id']; ?>">
+                                                <button type="submit" class="btn btn-hapus">Hapus</button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                <?php endif; ?>
                             </tr>
                         <?php endforeach; ?>
                     <?php endif; ?>
