@@ -21,6 +21,7 @@ unset($_SESSION['flash']);
         <?php endif; ?>
 
         <form id="form-tambah" method="post" action="proses_tambah.php">
+            <?php echo csrf_field(); ?>
             <div class="form-group">
                 <label for="nama">Nama Pelanggan</label>
                 <input type="text" id="nama" name="nama" placeholder="Contoh: Fakhri Fawwaz" required>

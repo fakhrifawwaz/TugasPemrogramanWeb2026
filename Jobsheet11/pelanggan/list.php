@@ -123,6 +123,7 @@ include __DIR__ . '/../includes/header.php';
                                             <a href="edit.php?id=<?php echo $pelanggan['id']; ?>" class="btn btn-edit">Edit</a>
                                             
                                             <form method="post" action="hapus.php" style="display:inline;" onsubmit="return confirm('Yakin menghapus pelanggan ini?');">
+                                                <?php echo csrf_field(); ?>
                                                 <input type="hidden" name="id" value="<?php echo $pelanggan['id']; ?>">
                                                 <button type="submit" class="btn btn-hapus">Hapus</button>
                                             </form>

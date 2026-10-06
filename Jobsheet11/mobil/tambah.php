@@ -16,6 +16,7 @@ include __DIR__ . '/../includes/header.php';
         <?php endif; ?>
 
         <form id="form-tambah" method="post" action="proses_tambah.php">
+            <?php echo csrf_field(); ?>
             <div class="form-group">
                 <label for="no_mobil">No. Mobil</label>
                 <input type="text" id="no_mobil" name="no_mobil" required placeholder="Contoh: N 001 SIB">

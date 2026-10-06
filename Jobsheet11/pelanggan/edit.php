@@ -33,6 +33,7 @@ if (!$pelanggan) {
     <?php endif; ?>
 
     <form id="form-edit" class="form-edit" method="post" action="proses_edit.php">
+        <?php echo csrf_field(); ?>
         <input type="hidden" name="id" value="<?php echo $pelanggan['id']; ?>">
 
         <p>
