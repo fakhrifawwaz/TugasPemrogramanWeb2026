@@ -1,0 +1,322 @@
+:root {
+    --primary-blue: #0a3861;
+    --bg-light: #f2f4f7;
+    --card-bg: #ffffff;
+    --text-color: #212529;
+    --text-muted: #6c757d;
+    --border-color: #e2e8f0;
+    --btn-edit: #0a3861;
+    --btn-danger: #b02a2a;
+    --btn-success: #2e7d32;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+}
+
+html, body {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+body {
+    background-color: var(--bg-light);
+    color: var(--text-color);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* --- Header & Navigasi --- */
+header {
+    background-color: var(--primary-blue);
+    color: #ffffff;
+    padding: 18px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+nav ul {
+    display: flex;
+    list-style: none;
+    gap: 20px;
+}
+
+nav a {
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 0.95rem;
+    font-weight: 600;
+    padding-bottom: 3px;
+}
+
+nav a.active, nav a:hover {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+}
+
+.brand {
+    text-align: right;
+}
+
+.brand h1 {
+    font-size: 1.3rem;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+}
+
+.brand p {
+    font-size: 0.75rem;
+    opacity: 0.85;
+}
+
+/* --- Layout Utama --- */
+main, .container {
+    flex: 1;
+    max-width: 1100px;
+    width: 90%;
+    margin: 30px auto;
+}
+
+.card {
+    background: var(--card-bg);
+    border-radius: 6px;
+    padding: 28px 32px;
+    margin-bottom: 24px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.card h2 {
+    color: var(--primary-blue);
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 12px;
+}
+
+.card p {
+    color: #4a5568;
+    font-size: 0.95rem;
+}
+
+/* --- Ringkasan Stat (Beranda) --- */
+.stats-grid, .summary-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-top: 15px;
+}
+
+.stat-card, .summary-card {
+    background: #ffffff;
+    border: 1px solid var(--border-color);
+    border-left: 4px solid var(--primary-blue);
+    border-radius: 4px;
+    padding: 20px 24px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.stat-card p, .summary-title {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--primary-blue);
+    margin-bottom: 8px;
+}
+
+.stat-card .number, .summary-value {
+    display: block;
+    font-size: 2rem;
+    font-weight: 700;
+    color: #1a202c;
+}
+
+.text-success {
+    color: #2e7d32 !important;
+}
+
+/* --- Tabel --- */
+.table-container {
+    width: 100%;
+    overflow-x: auto;
+    margin-top: 15px;
+    -webkit-overflow-scrolling: touch;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #ffffff;
+}
+
+th {
+    background-color: var(--primary-blue);
+    color: #ffffff;
+    text-align: left;
+    padding: 12px 16px;
+    font-size: 0.9rem;
+    font-weight: 700;
+}
+
+td {
+    padding: 12px 16px;
+    font-size: 0.9rem;
+    color: #2d3748;
+    border-bottom: 1px solid #edf2f7;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #f8fafc;
+}
+
+.action-btns {
+    display: flex;
+    gap: 8px;
+}
+
+/* --- Form --- */
+.form-group {
+    margin-bottom: 18px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #2d3748;
+    margin-bottom: 6px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    max-width: 400px;
+    padding: 9px 12px;
+    border: 1px solid #cbd5e0;
+    border-radius: 4px;
+    font-size: 0.95rem;
+    outline: none;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    border-color: var(--primary-blue);
+    box-shadow: 0 0 0 2px rgba(10, 56, 97, 0.15);
+}
+
+/* --- Tombol Aksi --- */
+.btn {
+    display: inline-block;
+    padding: 8px 20px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    border-radius: 4px;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    vertical-align: middle;
+    line-height: 1.2;
+}
+
+.btn-edit {
+    background-color: var(--btn-edit);
+    color: #ffffff;
+}
+
+.btn-hapus,
+.btn-batal {
+    background-color: var(--btn-danger);
+    color: #ffffff;
+}
+
+.btn-simpan {
+    background-color: var(--btn-success);
+    color: #ffffff;
+}
+
+.btn:hover {
+    opacity: 0.9;
+}
+
+/* --- Footer --- */
+footer {
+    background-color: var(--primary-blue);
+    color: #ffffff;
+    text-align: center;
+    padding: 16px;
+    font-size: 0.85rem;
+    margin-top: auto;
+    opacity: 0.95;
+}
+
+/* --- PERBAIKAN RESPONSIF (HP / MOBILE) --- */
+@media (max-width: 768px) {
+    header {
+        flex-direction: column !important;
+        align-items: center !important;
+        text-align: center !important;
+        padding: 15px 12px !important;
+        gap: 12px !important;
+    }
+
+    nav ul {
+        flex-wrap: wrap !important;
+        justify-content: center !important;
+        gap: 8px 12px !important;
+        padding: 0 !important;
+    }
+
+    nav a {
+        font-size: 0.85rem !important;
+        padding: 4px 6px !important;
+    }
+
+    .brand {
+        text-align: center !important;
+    }
+
+    .brand h1 {
+        font-size: 1.1rem !important;
+    }
+
+    .brand p {
+        font-size: 0.75rem !important;
+    }
+
+    main, .container {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 10px 0 !important;
+        padding: 0 10px !important;
+    }
+
+    .card {
+        padding: 18px 15px !important;
+        margin-bottom: 15px !important;
+    }
+
+    .card h2 {
+        font-size: 1.2rem !important;
+    }
+
+    .stats-grid, .summary-grid {
+        grid-template-columns: 1fr !important;
+        gap: 12px !important;
+    }
+
+    .form-group input, 
+    .form-group select, 
+    .form-group textarea {
+        max-width: 100% !important;
+    }
+
+    table {
+        min-width: 480px; /* Memastikan tabel bisa di-scroll dengan mulus di layar sempit */
+    }
+}
