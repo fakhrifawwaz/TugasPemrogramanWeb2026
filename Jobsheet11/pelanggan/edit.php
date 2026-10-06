@@ -34,7 +34,7 @@ if (!$pelanggan) {
 
     <form id="form-edit" class="form-edit" method="post" action="proses_edit.php">
         <?php echo csrf_field(); ?>
-        <input type="hidden" name="id" value="<?php echo $pelanggan['id']; ?>">
+        <input type="hidden" name="id" value="<?php echo (int) $pelanggan['id']; ?>">
 
         <p>
             <label for="nama">Nama Pelanggan:</label>
