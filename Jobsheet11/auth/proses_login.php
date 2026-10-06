@@ -3,12 +3,15 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
+require __DIR__ . '/../includes/csrf.php';
 require __DIR__ . '/../includes/koneksi.php';
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     header('Location: login.php');
     exit;
 }
+
+csrf_verify();
 
 $username = trim($_POST['username'] ?? '');
 $password = trim($_POST['password'] ?? '');

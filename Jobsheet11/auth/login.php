@@ -32,7 +32,7 @@ unset($_SESSION['flash']);
                 $textColor = $isSuccess ? '#155724' : '#721c24';
             ?>
             <div style="padding: 10px 14px; margin-bottom: 20px; background-color: <?php echo $bgColor; ?>; color: <?php echo $textColor; ?>; border-radius: 4px; font-size: 0.9rem;">
-                <?php echo htmlspecialchars($message); ?>
+                <?php echo e($message); ?>
             </div>
         <?php endif; ?>
 

@@ -2,10 +2,12 @@
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
-// Ganti baris require koneksi menjadi:
+
+require __DIR__ . '/../includes/csrf.php';
 require __DIR__ . '/../includes/koneksi.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    csrf_verify();
     $nama = trim($_POST['nama'] ?? '');
     $username = trim($_POST['username'] ?? '');
     $password = $_POST['password'] ?? '';
