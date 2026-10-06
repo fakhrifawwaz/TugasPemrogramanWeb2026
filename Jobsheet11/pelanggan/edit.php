@@ -27,27 +27,27 @@ if (!$pelanggan) {
     <h2>Edit Data Pelanggan</h2>
 
     <?php if ($flash): ?>
-        <div class="alert alert-<?php echo htmlspecialchars($flash['type']); ?>">
-            <?php echo htmlspecialchars($flash['message']); ?>
+        <div class="alert alert-<?php echo e($flash['type']); ?>">
+            <?php echo e($flash['message']); ?>
         </div>
     <?php endif; ?>
 
     <form id="form-edit" class="form-edit" method="post" action="proses_edit.php">
-        <input type="hidden" name="id" value="<?php echo htmlspecialchars($pelanggan['id']); ?>">
+        <input type="hidden" name="id" value="<?php echo $pelanggan['id']; ?>">
 
         <p>
             <label for="nama">Nama Pelanggan:</label>
-            <input type="text" id="nama" name="nama" value="<?php echo htmlspecialchars($pelanggan['nama']); ?>" required>
+            <input type="text" id="nama" name="nama" value="<?php echo e($pelanggan['nama']); ?>" required>
         </p>
 
         <p>
             <label for="alamat">Alamat:</label>
-            <textarea id="alamat" name="alamat" rows="3" required><?php echo htmlspecialchars($pelanggan['alamat']); ?></textarea>
+            <textarea id="alamat" name="alamat" rows="3" required><?php echo e($pelanggan['alamat']); ?></textarea>
         </p>
 
         <p>
             <label for="no_hp">Nomor HP / WhatsApp:</label>
-            <input type="text" id="no_hp" name="no_hp" value="<?php echo htmlspecialchars($pelanggan['no_hp']); ?>" required>
+            <input type="text" id="no_hp" name="no_hp" value="<?php echo e($pelanggan['no_hp']); ?>" required>
         </p>
 
         <p>

@@ -3,6 +3,8 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
+require_once __DIR__ . '/helpers.php';
+
 $sudahLogin = isset($_SESSION['user_id']);
 
 if (!isset($base)) {
@@ -17,7 +19,7 @@ $currentPage = basename($_SERVER['PHP_SELF']);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo isset($page_title) ? $page_title : 'SIRENMO'; ?></title>
+    <title><?php echo isset($page_title) ? e($page_title) : 'SIRENMO'; ?></title>
 
     <!-- Google Fonts: Poppins -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -46,7 +48,7 @@ $currentPage = basename($_SERVER['PHP_SELF']);
             <p>SIRENMO — Sistem Informasi Rental Mobil</p>
             <?php if ($sudahLogin): ?>
                 <div style="font-size: 0.8rem; margin-top: 4px;">
-                    <span>Halo, <strong><?php echo htmlspecialchars($_SESSION['nama'] ?? 'User'); ?></strong></span> | 
+                    <span>Halo, <strong><?php echo e($_SESSION['nama'] ?? 'User'); ?></strong></span> | 
                     <a href="<?php echo $base; ?>auth/logout.php" style="color: #ffc107; text-decoration: none;">Logout</a>
                 </div>
             <?php else: ?>

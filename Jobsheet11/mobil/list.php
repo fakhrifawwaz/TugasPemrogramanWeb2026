@@ -76,13 +76,13 @@ include __DIR__ . '/../includes/header.php';
                 $textColor = ($type === 'danger' || $type === 'error') ? '#721c24' : '#155724';
             ?>
             <div style="padding: 10px; margin-bottom: 15px; background-color: <?php echo $bgColor; ?>; color: <?php echo $textColor; ?>; border-radius: 4px;">
-                <?php echo htmlspecialchars($message); ?>
+                <?php echo e($message); ?>
             </div>
         <?php endif; ?>
 
         <div style="margin-bottom: 20px;">
             <form method="get" action="list.php">
-                <input type="text" name="q" value="<?php echo htmlspecialchars($keyword); ?>" placeholder="Cari No. Mobil, Merek, Tipe, atau Tahun..." style="padding: 8px; width: 300px; border: 1px solid #cbd5e0; border-radius: 4px;">
+                <input type="text" name="q" value="<?php echo e($keyword); ?>" placeholder="Cari No. Mobil, Merek, Tipe, atau Tahun..." style="padding: 8px; width: 300px; border: 1px solid #cbd5e0; border-radius: 4px;">
                 <button type="submit" class="btn btn-edit">Cari</button>
                 <?php if ($keyword !== ''): ?>
                     <a href="list.php" class="btn btn-hapus">Reset</a>
@@ -113,10 +113,10 @@ include __DIR__ . '/../includes/header.php';
                         <?php foreach ($daftarMobil as $index => $mobil): ?>
                             <tr>
                                 <td><?php echo $offset + $index + 1; ?></td>
-                                <td><?php echo htmlspecialchars($mobil['no_mobil'] ?? ''); ?></td>
-                                <td><?php echo htmlspecialchars($mobil['merek'] ?? ''); ?></td>
-                                <td><?php echo htmlspecialchars($mobil['tipe'] ?? ''); ?></td>
-                                <td><?php echo htmlspecialchars($mobil['tahun'] ?? ''); ?></td>
+                                <td><?php echo e($mobil['no_mobil'] ?? ''); ?></td>
+                                <td><?php echo e($mobil['merek'] ?? ''); ?></td>
+                                <td><?php echo e($mobil['tipe'] ?? ''); ?></td>
+                                <td><?php echo $mobil['tahun'] ?? ''; ?></td>
                                 
                                 <?php if ($is_logged_in): ?>
                                     <td>

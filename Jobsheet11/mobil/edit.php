@@ -2,7 +2,7 @@
 $page_title = "Edit Mobil";
 include __DIR__ . '/../includes/header.php';
 require __DIR__ . '/../includes/koneksi.php';
-require __DIR__ . '/../includes/auth.php'; ?>
+require __DIR__ . '/../includes/auth.php';
 
 $flash = $_SESSION['flash'] ?? null;
 unset($_SESSION['flash']);
@@ -27,32 +27,32 @@ if (!$mobil) {
     <h2>Edit Data Mobil</h2>
 
     <?php if ($flash): ?>
-        <div class="alert alert-<?php echo htmlspecialchars($flash['type']); ?>">
-            <?php echo htmlspecialchars($flash['message']); ?>
+        <div class="alert alert-<?php echo e($flash['type']); ?>">
+            <?php echo e($flash['message']); ?>
         </div>
     <?php endif; ?>
 
     <form id="form-edit" class="form-edit" method="post" action="proses_edit.php">
-        <input type="hidden" name="id" value="<?php echo htmlspecialchars($mobil['id']); ?>">
+        <input type="hidden" name="id" value="<?php echo $mobil['id']; ?>">
 
         <p>
             <label for="no_mobil">Nomor Plat (No. Mobil)</label><br>
-            <input type="text" id="no_mobil" name="no_mobil" value="<?php echo htmlspecialchars($mobil['no_mobil']); ?>" required>
+            <input type="text" id="no_mobil" name="no_mobil" value="<?php echo e($mobil['no_mobil']); ?>" required>
         </p>
 
         <p>
             <label for="merek">Merek Mobil</label><br>
-            <input type="text" id="merek" name="merek" value="<?php echo htmlspecialchars($mobil['merek']); ?>" required>
+            <input type="text" id="merek" name="merek" value="<?php echo e($mobil['merek']); ?>" required>
         </p>
 
         <p>
             <label for="tipe">Tipe Mobil</label><br>
-            <input type="text" id="tipe" name="tipe" value="<?php echo htmlspecialchars($mobil['tipe']); ?>" required>
+            <input type="text" id="tipe" name="tipe" value="<?php echo e($mobil['tipe']); ?>" required>
         </p>
 
         <p>
             <label for="tahun">Tahun Pembuatan</label><br>
-            <input type="number" id="tahun" name="tahun" value="<?php echo htmlspecialchars($mobil['tahun']); ?>" required>
+            <input type="number" id="tahun" name="tahun" value="<?php echo $mobil['tahun']; ?>" required>
         </p>
 
         <p>
