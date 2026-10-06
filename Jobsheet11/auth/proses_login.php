@@ -39,6 +39,9 @@ try {
         }
 
         if ($isPasswordValid) {
+            // Regenerasi session ID untuk mencegah Session Fixation
+            session_regenerate_id(true);
+
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['nama'] = $user['nama'] ?? $user['username'];
             $_SESSION['username'] = $user['username'];
